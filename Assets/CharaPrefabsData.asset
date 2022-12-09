@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f2fe7e0c922df4882aa7f494902507, type: 3}
+  m_Name: CharaPrefabsData
+  m_EditorClassIdentifier: 
+  curryPrefab: {fileID: 7256132937004298342, guid: 009df5688d8206f489bce6a4c0c38470, type: 3}
+  curryAttack2Prefab: {fileID: 6909817682759642664, guid: f25d3fc32f7774440aed1873f2544c84, type: 3}
+  francePrefab: {fileID: 647019146787151775, guid: e7d79b9508da72c48b2ef46c7b93691a, type: 3}
+  franceAttack2Prefab: {fileID: 1590745174895039877, guid: 23216715ab076e447a6061931471df53, type: 3}
+  melonPrefab: {fileID: 4346351038468972132, guid: 0ff7afed4232f6b4b979c30e63756923, type: 3}
+  melonAttack2Prefab: {fileID: 58572427015516146, guid: 1d7dbdef7940e50409c8f827ef51d180, type: 3}
+  cornetPrefab: {fileID: 2327111904350324128, guid: e32fd7b314ed8ba45ba568c4fb1a187f, type: 3}
+  cornetAttack2Prefab: {fileID: 6412054884055983231, guid: df63f6a29e697ca42829664fd1ca56de, type: 3}
