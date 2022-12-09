@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SelectCharacter
 {
-    public sealed class GameStart : MonoBehaviour
+    public sealed class GameStarter : MonoBehaviour
     {
         [SerializeField]
         GameManagerDate gameManagerData;
@@ -20,8 +20,8 @@ namespace SelectCharacter
             }
 
             activeChara = new GameObject[2];
-            respownPos[0]=transform.Find("PlayerRespown").gameObject;
-            respownPos[1]=transform.Find("Player_2Respown").gameObject;
+            respownPos[0] = transform.Find("PlayerRespown").gameObject;
+            respownPos[1] = transform.Find("Player_2Respown").gameObject;
 
             // gameManagerData=FindObjectOfType<GameManager>().GetGameManagerData();
             gameManagerData = GameObject.Find("GameManager").GetComponent<GameManagerDate>();

@@ -9,7 +9,7 @@ public class CountDown : MonoBehaviour
     [SerializeField] Text textCountdown;
     [SerializeField] int CountDownNum = 3;
     [SerializeField] GameObject[] player;
-    GameStart gameStart;
+    GameStarter gameStart;
 
     //開始のコング
     [SerializeField] AudioClip startSE;
@@ -21,7 +21,7 @@ public class CountDown : MonoBehaviour
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
-        gameStart = FindObjectOfType<GameStart>();
+        gameStart = FindObjectOfType<GameStarter>();
 
         player = new GameObject[2];
         // gameManagerData = GameObject.Find("GameManager").GetComponent<GameManagerDate>();
