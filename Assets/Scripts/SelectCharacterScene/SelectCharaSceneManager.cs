@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 public sealed class SelectCharaSceneManager : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     [SerializeField]
     private Button gameStartButton;
+
+    [SerializeField]
+    private string battleSceneName;
 
     private Characters player1Character;
 
@@ -28,6 +33,9 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
         selectCharaPanelDirector2.GetCharaSelectedObservable()
                                  .Subscribe(c => OnCharaSelected(1, c));
+
+        gameStartButton.OnClickAsObservable()
+                       .Subscribe(_ => OnStartButtonClicked().Forget());
     }
 
     private void OnCharaSelected(int playerNumber, Characters character)
@@ -50,5 +58,36 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
         {
             gameStartButton.gameObject.SetActive(true);
         }
+    }
+
+    private async UniTaskVoid OnStartButtonClicked()
+    {
+        await SceneManager.LoadSceneAsync(battleSceneName);
+
+        if (!TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
+        {
+            return;
+        }
+
+        gameStarter.StartGame(player1Character, player2Character).Forget();
+    }
+
+    private bool TryGetComponentInScene<TComponent>(string sceneName, out TComponent component) where TComponent : Component
+    {
+        var scene = SceneManager.GetSceneByName(battleSceneName);
+
+        var gameObjects = scene.GetRootGameObjects();
+
+        foreach (var gameObject in gameObjects)
+        {
+            component = gameObject.GetComponentInChildren<TComponent>();
+            if (component != null)
+            {
+                return true;
+            }
+        }
+
+        component = null;
+        return false;
     }
 }
