@@ -42,4 +42,26 @@ public sealed class CharaPrefabsData : ScriptableObject
     private CornetAttack2Controller cornetAttack2Prefab;
 
     public CornetAttack2Controller CornetAttack2Prefab => cornetAttack2Prefab;
+
+    public bool TryGetPrefab(Characters character, out PlayerController prefab)
+    {
+        switch (character)
+        {
+            case Characters.Curry:
+                prefab = curryPrefab;
+                return true;
+            case Characters.France:
+                prefab = francePrefab;
+                return true;
+            case Characters.Melon:
+                prefab = melonPrefab;
+                return true;
+            case Characters.Cornet:
+                prefab = cornetPrefab;
+                return true;
+            default:
+                prefab = null;
+                return false;
+        };
+    }
 }
