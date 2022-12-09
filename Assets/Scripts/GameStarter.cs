@@ -1,48 +1,60 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace SelectCharacter
 {
     public sealed class GameStarter : MonoBehaviour
     {
         [SerializeField]
-        GameManagerDate gameManagerData;
+        private CharaPrefabsData charaPrefabsData;
 
         [SerializeField]
-        GameObject[] respownPos;
+        private CountDown countDown;
 
-        public GameObject[] activeChara;
+        [SerializeField]
+        private Transform player1SpawnPoint;
 
-        private void Awake()
+        [SerializeField]
+        private Transform player2SpawnPoint;
+
+        public async UniTaskVoid StartGame(Characters player1Chara, Characters player2Chara)
         {
             if (Screen.fullScreen)
             {
                 Cursor.visible = false; // マウスカーソルを非表示にする
             }
 
-            activeChara = new GameObject[2];
-            respownPos[0] = transform.Find("PlayerRespown").gameObject;
-            respownPos[1] = transform.Find("Player_2Respown").gameObject;
-
-            // gameManagerData=FindObjectOfType<GameManager>().GetGameManagerData();
-            gameManagerData = GameObject.Find("GameManager").GetComponent<GameManagerDate>();
-            Debug.Log("Instantiate");
+            if (!charaPrefabsData.TryGetPrefab(player1Chara, out var player1Prefab))
+            {
+                return;
+            }
 
             //Playerを生成
-            activeChara[0] = Instantiate(gameManagerData.GetCharacter(), respownPos[0].transform.position, Quaternion.identity);
-            PlayerController player1Controller = activeChara[0].GetComponent<PlayerController>();
+            var player1Controller = Instantiate(player1Prefab, player1SpawnPoint.position, Quaternion.identity);
             player1Controller.SetPlayerNum(1);
             player1Controller.SetDirection(1.0f); // 右向きにする
+            player1Controller.enabled = false;
 
             // キーボードで操作するオブジェクトを設定する
-            GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(activeChara[0]);
+            GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(player1Controller.gameObject);
 
-            activeChara[1] = Instantiate(gameManagerData.GetCharacter_2(), respownPos[1].transform.position, Quaternion.identity);
-            PlayerController player2Controller = activeChara[1].GetComponent<PlayerController>();
+            if (!charaPrefabsData.TryGetPrefab(player2Chara, out var player2Prefab))
+            {
+                return;
+            }
+
+            var player2Controller = Instantiate(player2Prefab, player2SpawnPoint.position, Quaternion.identity);
             player2Controller.SetPlayerNum(2);
             player2Controller.SetDirection(-1.0f); // 左向きにする
+            player2Controller.enabled = false;
 
             // ゲームパッドで操作するオブジェクトを設定する
-            GameObject.Find("GamepadInput").GetComponent<GamepadInputManager>().SetPlayer(activeChara[1]);
+            GameObject.Find("GamepadInput").GetComponent<GamepadInputManager>().SetPlayer(player2Controller.gameObject);
+
+            await countDown.CountDownAsync();
+
+            player1Controller.enabled = true;
+            player2Controller.enabled = true;
         }
     }
 }
