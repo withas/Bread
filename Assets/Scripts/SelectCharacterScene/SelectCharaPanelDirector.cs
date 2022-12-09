@@ -26,6 +26,15 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     [SerializeField]
     private Button selectCornetButton;
 
+    [SerializeField]
+    private Text playerLabelFrontText;
+
+    [SerializeField]
+    private Text playerLabelBackText;
+
+    [SerializeField]
+    private int playerNumber = 0;
+
     private IObservable<Characters> charaSelectedObservable;
 
     public IObservable<Characters> GetCharaSelectedObservable()
@@ -47,6 +56,8 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
 
     private void Start()
     {
+        playerLabelFrontText.text = playerLabelBackText.text = $"Player {playerNumber + 1}";
+
         GetCharaSelectedObservable().Subscribe(OnSelectCharaButtonClicked)
                                     .AddTo(this);
     }
