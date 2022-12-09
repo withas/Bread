@@ -22,18 +22,10 @@ namespace SelectCharacter
         {
             gameManager = GameObject.Find("GameManager");
 
-            //GameManagerDataを取得
-            // gameManagerDate = gameManager.GetComponent<GameManagerDate>();
-
-            // Debug.Log(gameManagerDate);
-
             if (!gameStartButton)
             {
                 return;
             }
-
-            //ボタンを取得
-            // gameStartButton = GameObject.Find("ButtonPanel/GameStart").gameObject;
 
             //ボタンを無効にする
             gameStartButton.SetActive(false);
@@ -62,9 +54,6 @@ namespace SelectCharacter
 
             //GameStartButtonにプレイヤーが選択されたことを知らせる
             gameStartButton.GetComponent<GameStartButton>().ActivateButton(buttonNum);
-
-            // //　ゲームスタートボタンを有効にする
-            // gameStartButton.SetActive(true);
         }
 
         //　キャラクターを選択した時に背景をオンにする
