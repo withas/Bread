@@ -4,15 +4,15 @@ using UnityEngine.UI;
 public sealed class DisplayCharacter : MonoBehaviour
 {
     [SerializeField]
-    Sprite[] charaImg;
+    private Sprite[] charaImg;
 
-    Image nowImg;
+    private Image nowImg;
 
     [SerializeField]
-    GameObject selectCharactorPanel;
+    private GameObject selectCharactorPanel;
 
-    SelectCharacter.ChooseCharacter cchara;
- 
+    private SelectCharacter.ChooseCharacter cchara;
+
     private void Start()
     {
         cchara = selectCharactorPanel.GetComponent<SelectCharacter.ChooseCharacter>();
@@ -22,7 +22,6 @@ public sealed class DisplayCharacter : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log(nowImg);
         if (cchara.currentSelect)
         {
             Show();
