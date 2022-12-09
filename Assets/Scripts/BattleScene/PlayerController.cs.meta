@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: a4a6ade6cfef5e7478bdce196cabc0fb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - attackPoint: {instanceID: 0}
+  - barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
