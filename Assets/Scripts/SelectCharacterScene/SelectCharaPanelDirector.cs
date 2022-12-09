@@ -8,6 +8,9 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     private StatusPanelDirector statusPanelDirector;
 
     [SerializeField]
+    private CharaButtonsDirector charaButtonsDirector;
+
+    [SerializeField]
     private Button selectCurryButton;
 
     [SerializeField]
@@ -45,5 +48,6 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     private void OnSelectCharaButtonClicked(Characters character)
     {
         statusPanelDirector.SetStatus(character);
+        charaButtonsDirector.SetBgActive(character);
     }
 }
