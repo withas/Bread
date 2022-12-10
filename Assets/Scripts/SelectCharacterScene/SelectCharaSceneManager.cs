@@ -64,30 +64,11 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     {
         await SceneManager.LoadSceneAsync(battleSceneName);
 
-        if (!TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
+        if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
         {
             return;
         }
 
         gameStarter.StartGame(player1Character, player2Character).Forget();
-    }
-
-    private bool TryGetComponentInScene<TComponent>(string sceneName, out TComponent component) where TComponent : Component
-    {
-        var scene = SceneManager.GetSceneByName(battleSceneName);
-
-        var gameObjects = scene.GetRootGameObjects();
-
-        foreach (var gameObject in gameObjects)
-        {
-            component = gameObject.GetComponentInChildren<TComponent>();
-            if (component != null)
-            {
-                return true;
-            }
-        }
-
-        component = null;
-        return false;
     }
 }
