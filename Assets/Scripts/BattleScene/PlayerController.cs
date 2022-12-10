@@ -1,13 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
     // ガード関係
-    [SerializeField] private GameObject barrierPrefab;
-    [SerializeField] private float guardingRatio; // ガード時にダメージを何割にするか
-    private GameObject barrier; // バリアのオブジェクトを入れる
+    [SerializeField]
+    private GameObject barrierPrefab;
+
+    // ガード時にダメージを何割にするか
+    [SerializeField]
+    private float guardingRatio;
+
+    // バリアのオブジェクトを入れる
+    private GameObject barrier;
     private bool isGuarding;
 
     private Slider slider;
@@ -18,9 +23,17 @@ public class PlayerController : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
 
     // キャラクターステータス関連
-    [SerializeField] private int maxHp = 50; // 最大HP
-    [SerializeField] private float moveSpeed = 3; // 移動速度
-    [SerializeField] private float jumpForce = 200.0f; // ジャンプのときにかかる力
+    // 最大HP
+    [SerializeField]
+    private int maxHp = 50;
+
+    // 移動速度
+    [SerializeField]
+    private float moveSpeed = 3;
+
+    // ジャンプのときにかかる力
+    [SerializeField]
+    private float jumpForce = 200.0f;
 
     // ステータス状態
     private int hp; // 現在のHP
@@ -32,7 +45,10 @@ public class PlayerController : MonoBehaviour {
     private float inputX;
 
     // サウンド関連
-    [SerializeField] AudioClip[] clips; // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
+    // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
+    [SerializeField]
+    private AudioClip[] clips;
+
     private AudioSource audioSource;
 
     private int playerNum;
@@ -48,29 +64,15 @@ public class PlayerController : MonoBehaviour {
     public float GetGuardingRatio() { return this.guardingRatio; }
 
     // プレイヤー1or2を識別
-    public void SetPlayerNum(int num) {
+    public void SetPlayerNum(int num)
+    {
         this.playerNum = num;
 
         this.slider = GameObject.Find("Canvas").transform.Find("Player" + num + "_HP").GetComponent<Slider>();
     }
 
-    protected void Start() {
-        /*
-        switch (playerNum) {
-            case 1:
-                slider = GameObject.Find("Canvas").transform.Find("Player1_HP").GetComponent<Slider>();
-                break;
-            case 2:
-                slider = GameObject.Find("Canvas").transform.Find("Player2_HP").GetComponent<Slider>();
-                break;
-            default:
-                // デバッグ用
-                this.playerNum = 1;
-                slider = GameObject.Find("Canvas").transform.Find("Player1_HP").GetComponent<Slider>();
-                break;
-        }
-        */
-
+    protected void Start()
+    {
         this.slider.maxValue = this.maxHp;
         this.hp = this.maxHp;
         this.slider.value = this.hp;
@@ -92,9 +94,11 @@ public class PlayerController : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
     }
 
-    protected void Update() {
+    protected void Update()
+    {
         // 硬直時間を減らす
-        if (this.freezingTime > 0) {
+        if (this.freezingTime > 0)
+        {
             this.animator.SetBool("IsFreezing", true);
             this.freezingTime -= Time.deltaTime;
             if (this.freezingTime <= 0) this.spriteRenderer.color = new Color(255.0f, 255.0f, 255.0f);
@@ -104,25 +108,29 @@ public class PlayerController : MonoBehaviour {
         if (this.isJumping) this.animator.SetFloat("YSpeed", this.rigidBody.velocity.y);
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         const float power = 20;
 
         this.rigidBody.AddForce(Vector3.right * ((this.moveSpeed * this.inputX - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
     }
 
     // 向きを変える
-    public void SetDirection(float direction) {
+    public void SetDirection(float direction)
+    {
         // 現在の角度を取得する
         Vector3 worldAngle = this.transform.eulerAngles;
 
         // 向いている方向と違う方向が渡されたとき
-        if ((int)worldAngle.y == 0 && direction > 0 || (int)worldAngle.y == 180 && direction < 0) {
+        if ((int)worldAngle.y == 0 && direction > 0 || (int)worldAngle.y == 180 && direction < 0)
+        {
             this.transform.Rotate(0, 180f, 0); // 180度回転
         }
     }
 
     // どんなときでも1フレームに1回呼ばれる。xにはx軸方向の入力が渡される
-    public void OnMove(float x) {
+    public void OnMove(float x)
+    {
         // 移動禁止中、もしくは硬直中は速度を0にする
         if (!this.canMove || this.isGuarding || this.freezingTime > 0) x = 0;
 
@@ -136,7 +144,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     // ジャンプキーが押されたときに呼ばれる
-    public void OnJump() {
+    public void OnJump()
+    {
         // ジャンプ中はジャンプできない
         if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
 
@@ -144,29 +153,34 @@ public class PlayerController : MonoBehaviour {
     }
 
     // 着地するときにFootPointから呼ばれる
-    public void OnGround() {
-        if (this.isJumping) {
+    public void OnGround()
+    {
+        if (this.isJumping)
+        {
             this.animator.SetTrigger("OnGround");
             this.isJumping = false;
         }
     }
-    
+
     // Jumpアニメーション中に呼び出す
-    public void Jump() {
+    public void Jump()
+    {
         this.rigidBody.AddForce(this.transform.up * this.jumpForce);
 
         this.isJumping = true;
     }
 
     // Attack1ボタンが押されたときに呼ばれる
-    public void OnAttack1() {
+    public void OnAttack1()
+    {
         if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
 
         this.animator.SetTrigger("Attack1");
     }
 
     // Attack2ボタンが押されたときに呼ばれる
-    public void OnAttack2() {
+    public void OnAttack2()
+    {
         if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
 
         this.animator.SetTrigger("Attack2");
@@ -174,7 +188,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     // ガードキーが押されているときに呼ぶ
-    public void OnGuard() {
+    public void OnGuard()
+    {
         if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
 
         // バリアを子オブジェクトとして生成する
@@ -186,7 +201,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     // ガードキーが離されたときに呼ぶ
-    public void OffGuard() {
+    public void OffGuard()
+    {
         // バリアを消す
         if (this.barrier != null) Destroy(this.barrier);
 
@@ -194,19 +210,22 @@ public class PlayerController : MonoBehaviour {
     }
 
     // 攻撃を受けたときに呼ばれる。ダメージ量と硬直時間を引数に受け取る
-    public virtual void OnDamage(int damage, float freezingTime) {
+    public virtual void OnDamage(int damage, float freezingTime)
+    {
         if (this.hp <= 0) return; // 死んでいたらダメージを受けない
 
         this.animator.SetTrigger("IsHurt");
 
         // ダメージを受ける
-        if (!isGuarding) {
+        if (!isGuarding)
+        {
             this.hp -= damage;
 
             // ダメージ音再生
             this.audioSource.PlayOneShot(clips[0]);
         }
-        else {
+        else
+        {
             this.hp -= (int)(damage * guardingRatio);
 
             this.audioSource.PlayOneShot(clips[2]);
@@ -215,13 +234,15 @@ public class PlayerController : MonoBehaviour {
         this.slider.value = this.hp;
 
         // HPが0以下になったら死亡する
-        if (this.hp <= 0) {
+        if (this.hp <= 0)
+        {
             Die();
             return;
         }
 
         // ガードしていないときは硬直を設定する
-        if (!isGuarding) {
+        if (!isGuarding)
+        {
             this.freezingTime = freezingTime;
             this.spriteRenderer.color = new Color(255.0f, 0.0f, 0.0f);
         }
@@ -234,10 +255,10 @@ public class PlayerController : MonoBehaviour {
 
         // 死亡アニメーションに移行
         this.animator.SetTrigger("IsDead");
-        
+
         // 操作不能にする
         this.enabled = false;
-        
+
         this.battle.Finish(playerNum);
     }
 }
