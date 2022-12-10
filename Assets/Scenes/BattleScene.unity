@@ -1878,6 +1878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaPrefabsData: {fileID: 11400000, guid: f1e29a385f27792429b163db35bcf22e, type: 2}
   countDown: {fileID: 850331137}
+  battleFinish: {fileID: 850331139}
   player1SpawnPoint: {fileID: 1872677826}
   player2SpawnPoint: {fileID: 1548398373}
 --- !u!114 &850331137
@@ -1927,9 +1928,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a0ed2a01bd35f429ac7a95d3d27043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManagerData: {fileID: 0}
   text: {fileID: 987212407}
   finishSE: {fileID: 8300000, guid: ca552642fc021484cb1262b4b8e2896e, type: 3}
+  audioSource: {fileID: 850331140}
+  resultSceneName: ResultScene
 --- !u!82 &850331140
 AudioSource:
   m_ObjectHideFlags: 0
