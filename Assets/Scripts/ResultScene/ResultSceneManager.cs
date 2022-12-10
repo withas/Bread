@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SelectCharacter
 {
-    public class Result : MonoBehaviour
+    public class ResultSceneManager : MonoBehaviour
     {
         [SerializeField] GameManagerDate gameManagerData;
 
