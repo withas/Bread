@@ -6,125 +6,58 @@ namespace SelectCharacter
     public sealed class ResultSceneManager : MonoBehaviour
     {
         [SerializeField]
-        private GameManagerDate gameManagerData;
+        private Image player1Image;
 
         [SerializeField]
-        private int winnerPlayerNum;
+        private Image player2Image;
 
         [SerializeField]
-        private Text P1_text;
+        private Text player1FrontText;
 
         [SerializeField]
-        private Text P2_text;
+        private Text player1BackText;
 
         [SerializeField]
-        private Transform[] playerPos;
+        private Text player2FrontText;
 
         [SerializeField]
-        private Sprite[] winner;
+        private Text player2BackText;
 
         [SerializeField]
-        private Sprite[] loser;
+        private CharaSpriteData winnerSpriteData;
 
-        private Image[] player;
+        [SerializeField]
+        private CharaSpriteData loserSpriteData;
 
-        private void Start()
+        public void ShowResult(Characters player1Chara, Characters player2Chara, int winnerNumber)
         {
-            player = new Image[playerPos.Length];
-            player[0] = GameObject.Find("Player1").gameObject.GetComponent<Image>();
-            player[1] = GameObject.Find("Player2").gameObject.GetComponent<Image>();
-
-            gameManagerData = GameObject.Find("GameManager").GetComponent<GameManagerDate>();
-            winnerPlayerNum = gameManagerData.GetWinnerPlayerNum();
-
-            //プレイヤー1の勝ち
-            if (winnerPlayerNum == 1)
+            if (winnerNumber == 0)
             {
-                switch (gameManagerData.GetCharacter().gameObject.name)
+                if (winnerSpriteData.TryGetSprite(player1Chara, out var winnerSprite))
                 {
-                    case "Curry":
-                        player[0].sprite = winner[1];
-                        break;
-                    case "France":
-                        player[0].sprite = winner[2];
-                        break;
-                    case "Melon":
-                        player[0].sprite = winner[3];
-                        break;
-                    case "Cornet":
-                        player[0].sprite = winner[4];
-                        break;
-                    default:
-                        player[0].sprite = winner[0];
-                        break;
+                    player1Image.sprite = winnerSprite;
                 }
-                switch (gameManagerData.GetCharacter_2().gameObject.name)
+                player1FrontText.text = player1BackText.text = "WIN";
+
+                if (loserSpriteData.TryGetSprite(player2Chara, out var loserSprite))
                 {
-                    case "Curry":
-                        player[1].sprite = loser[1];
-                        break;
-                    case "France":
-                        player[1].sprite = loser[2];
-                        break;
-                    case "Melon":
-                        player[1].sprite = loser[3];
-                        break;
-                    case "Cornet":
-                        player[1].sprite = loser[4];
-                        break;
-                    default:
-                        player[1].sprite = loser[0];
-                        break;
+                    player2Image.sprite = loserSprite;
                 }
-                P1_text.text = "WIN";
-                P1_text.transform.Find("Result").GetComponent<Text>().text = "WIN";
-                P2_text.text = "LOSE";
-                P2_text.transform.Find("Result").GetComponent<Text>().text = "LOSE";
+                player2FrontText.text = player2BackText.text = "LOSE";
             }
-
-            //プレイヤー２が勝ち
-            if (winnerPlayerNum == 2)
+            else if (winnerNumber == 1)
             {
-                switch (gameManagerData.GetCharacter_2().gameObject.name)
+                if (winnerSpriteData.TryGetSprite(player2Chara, out var winnerSprite))
                 {
-                    case "Curry":
-                        player[1].sprite = winner[1];
-                        break;
-                    case "France":
-                        player[1].sprite = winner[2];
-                        break;
-                    case "Melon":
-                        player[1].sprite = winner[3];
-                        break;
-                    case "Cornet":
-                        player[1].sprite = winner[4];
-                        break;
-                    default:
-                        player[1].sprite = winner[0];
-                        break;
+                    player2Image.sprite = winnerSprite;
                 }
-                switch (gameManagerData.GetCharacter().gameObject.name)
+                player2FrontText.text = player2BackText.text = "WIN";
+
+                if (loserSpriteData.TryGetSprite(player1Chara, out var loserSprite))
                 {
-                    case "Curry":
-                        player[0].sprite = loser[1];
-                        break;
-                    case "France":
-                        player[0].sprite = loser[2];
-                        break;
-                    case "Melon":
-                        player[0].sprite = loser[3];
-                        break;
-                    case "Cornet":
-                        player[0].sprite = loser[4];
-                        break;
-                    default:
-                        player[0].sprite = loser[0];
-                        break;
+                    player1Image.sprite = loserSprite;
                 }
-                P1_text.text = "LOSE";
-                P1_text.transform.Find("Result").GetComponent<Text>().text = "LOSE";
-                P2_text.text = "WIN";
-                P2_text.transform.Find("Result").GetComponent<Text>().text = "WIN";
+                player1FrontText.text = player1BackText.text = "LOSE";
             }
         }
     }
