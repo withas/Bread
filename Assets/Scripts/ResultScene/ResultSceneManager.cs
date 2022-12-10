@@ -1,27 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SelectCharacter
 {
-    public class ResultSceneManager : MonoBehaviour
+    public sealed class ResultSceneManager : MonoBehaviour
     {
-        [SerializeField] GameManagerDate gameManagerData;
+        [SerializeField]
+        private GameManagerDate gameManagerData;
 
-        [SerializeField] int winnerPlayerNum;
-        [SerializeField] Text P1_text;
-        [SerializeField] Text P2_text;
-        
+        [SerializeField]
+        private int winnerPlayerNum;
 
-        [SerializeField] Transform[] playerPos;
+        [SerializeField]
+        private Text P1_text;
 
-        [SerializeField] Sprite[] winner;
-        [SerializeField] Sprite[] loser;
-        Image[] player;
+        [SerializeField]
+        private Text P2_text;
 
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField]
+        private Transform[] playerPos;
+
+        [SerializeField]
+        private Sprite[] winner;
+
+        [SerializeField]
+        private Sprite[] loser;
+
+        private Image[] player;
+
+        private void Start()
         {
             player = new Image[playerPos.Length];
             player[0] = GameObject.Find("Player1").gameObject.GetComponent<Image>();
@@ -119,10 +126,6 @@ namespace SelectCharacter
                 P2_text.text = "WIN";
                 P2_text.transform.Find("Result").GetComponent<Text>().text = "WIN";
             }
-
-
         }
-
-
     }
 }
