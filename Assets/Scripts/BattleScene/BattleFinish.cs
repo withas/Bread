@@ -1,48 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 using SelectCharacter;
 
-public class BattleFinish : MonoBehaviour
+public sealed class BattleFinish : MonoBehaviour
 {
-    [SerializeField] GameManagerDate gameManagerData;
-    [SerializeField] GameObject text;
+    [SerializeField]
+    private GameObject text;
 
     //終了のコング
-    [SerializeField] AudioClip finishSE;
-    AudioSource audioSource;
+    [SerializeField]
+    private AudioClip finishSE;
 
-    private void Start()
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private string resultSceneName;
+
+    private Characters player1Chara;
+
+    private Characters player2Chara;
+
+    public void SetCharacters(Characters player1Chara, Characters player2Chara)
     {
-        gameManagerData = GameObject.Find("GameManager").GetComponent<GameManagerDate>();
-
-        audioSource = gameObject.GetComponent<AudioSource>();
+        this.player1Chara = player1Chara;
+        this.player2Chara = player2Chara;
     }
 
-    public void Finish(int playerNum)
+    public async UniTaskVoid OnFinish(int playerNumber)
     {
         Cursor.visible = true; // マウスカーソルを表示する
 
-        //勝った相手のNumを入れる
-        switch (playerNum)
-        {
-            case 1:
-                gameManagerData.SetWinnerPlayerNum(2);
-                break;
-            case 2:
-                gameManagerData.SetWinnerPlayerNum(1);
-                break;
-        }
-        StartCoroutine(LoadResult());
-    }
-
-    IEnumerator LoadResult()
-    {
         text.SetActive(true);
         audioSource.PlayOneShot(finishSE);
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Result");
+
+        await UniTask.Delay(2000);
+
+        await SceneManager.LoadSceneAsync(resultSceneName);
+
+        if (SceneManagerExtension.TryGetComponentInScene<ResultSceneManager>(resultSceneName, out var resultSceneManager))
+        {
+            resultSceneManager.ShowResult(player1Chara, player2Chara, playerNumber);
+        }
     }
 }
