@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private bool isGuarding;
 
     private Slider slider;
-    private BattleFinish battle;
 
     private Rigidbody2D rigidBody; // Rigidbodyコンポーネント
     protected Animator animator; // Animatorコンポーネント
@@ -53,6 +54,10 @@ public class PlayerController : MonoBehaviour
 
     private int playerNum;
 
+    private Subject<Unit> onDownedSubject = new Subject<Unit>();
+
+    public IObservable<Unit> OnDownedObservable => onDownedSubject;
+
     public int GetMaxHp() { return this.maxHp; }
 
     public int GetHp() { return this.hp; }
@@ -71,6 +76,11 @@ public class PlayerController : MonoBehaviour
         this.slider = GameObject.Find("Canvas").transform.Find("Player" + num + "_HP").GetComponent<Slider>();
     }
 
+    private void Awake()
+    {
+        onDownedSubject.AddTo(this);
+    }
+
     protected void Start()
     {
         this.slider.maxValue = this.maxHp;
@@ -86,9 +96,6 @@ public class PlayerController : MonoBehaviour
         this.canMove = true;
         this.isJumping = false;
         this.isGuarding = false;
-
-        //シーン移行用のインスタンス
-        battle = GameObject.FindObjectOfType<BattleFinish>();
 
         //AudioSourse取得
         audioSource = GetComponent<AudioSource>();
@@ -259,6 +266,7 @@ public class PlayerController : MonoBehaviour
         // 操作不能にする
         this.enabled = false;
 
-        this.battle.Finish(playerNum);
+        onDownedSubject.OnNext(Unit.Default);
+        onDownedSubject.OnCompleted();
     }
 }
