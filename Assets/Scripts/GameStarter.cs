@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace SelectCharacter
 {
@@ -10,6 +11,9 @@ namespace SelectCharacter
 
         [SerializeField]
         private CountDown countDown;
+
+        [SerializeField]
+        private BattleFinish battleFinish;
 
         [SerializeField]
         private Transform player1SpawnPoint;
@@ -24,6 +28,8 @@ namespace SelectCharacter
                 Cursor.visible = false; // マウスカーソルを非表示にする
             }
 
+            battleFinish.SetCharacters(player1Chara, player2Chara);
+
             if (!charaPrefabsData.TryGetPrefab(player1Chara, out var player1Prefab))
             {
                 return;
@@ -34,6 +40,10 @@ namespace SelectCharacter
             player1Controller.SetPlayerNum(1);
             player1Controller.SetDirection(1.0f); // 右向きにする
             player1Controller.enabled = false;
+
+            player1Controller.OnDownedObservable
+                             .Subscribe(_ => battleFinish.OnFinish(1).Forget())
+                             .AddTo(battleFinish);
 
             // キーボードで操作するオブジェクトを設定する
             GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(player1Controller.gameObject);
@@ -47,6 +57,10 @@ namespace SelectCharacter
             player2Controller.SetPlayerNum(2);
             player2Controller.SetDirection(-1.0f); // 左向きにする
             player2Controller.enabled = false;
+
+            player2Controller.OnDownedObservable
+                             .Subscribe(_ => battleFinish.OnFinish(0).Forget())
+                             .AddTo(battleFinish);
 
             // ゲームパッドで操作するオブジェクトを設定する
             GameObject.Find("GamepadInput").GetComponent<GamepadInputManager>().SetPlayer(player2Controller.gameObject);
