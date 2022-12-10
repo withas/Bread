@@ -1116,7 +1116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 1219343169}
-  nextSceneName: SelectCharacterScene2P
+  nextSceneName: SelectCharaScene
 --- !u!4 &1908644690
 Transform:
   m_ObjectHideFlags: 0
