@@ -4,10 +4,7 @@ public class CornetAttack2Controller : MonoBehaviour
 {
     // 技の性能
     [SerializeField]
-    private int power = 5; // 威力
-
-    [SerializeField]
-    private float freezingTime = 0.2f; // 硬直時間
+    private CharaStatusData charaStatusData;
 
     // アニメーションの最後に呼び出す
     public void AnimationEnd()
@@ -21,7 +18,7 @@ public class CornetAttack2Controller : MonoBehaviour
         var otherObject = other.gameObject;
         if (otherObject.tag == "Player" && otherObject.TryGetComponent<PlayerController>(out var hitPlayer))
         {
-            hitPlayer.OnDamage(this.power, this.freezingTime);
+            hitPlayer.OnDamage(charaStatusData.Attack2Power, charaStatusData.Attack2FreezingTime);
         }
     }
 }
