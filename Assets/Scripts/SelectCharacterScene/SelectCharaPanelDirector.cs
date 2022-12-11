@@ -6,6 +6,9 @@ using UniRx;
 public sealed class SelectCharaPanelDirector : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform rectTransform;
+
+    [SerializeField]
     private StatusPanelDirector statusPanelDirector;
 
     [SerializeField]
@@ -13,6 +16,9 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
 
     [SerializeField]
     private DisplayCharaDirector displayCharaDirector;
+
+    [SerializeField]
+    private GameObject buttonsPanel;
 
     [SerializeField]
     private Button selectCurryButton;
@@ -27,45 +33,59 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     private Button selectCornetButton;
 
     [SerializeField]
+    private Button selectButton;
+
+    [SerializeField]
     private Text playerLabelFrontText;
 
     [SerializeField]
     private Text playerLabelBackText;
 
-    [SerializeField]
-    private int playerNumber = 0;
+    private Characters selectedChara;
 
-    private IObservable<Characters> charaSelectedObservable;
-
-    public IObservable<Characters> GetCharaSelectedObservable()
+    public IObservable<Characters> GetSelectedObservable()
     {
-        if (charaSelectedObservable == null)
-        {
-            charaSelectedObservable = Observable.Merge(selectCurryButton.OnClickAsObservable()
-                                                                        .Select(_ => Characters.Curry),
-                                                       selectFranceButton.OnClickAsObservable()
-                                                                         .Select(_ => Characters.France),
-                                                       selectMelonButton.OnClickAsObservable()
-                                                                        .Select(_ => Characters.Melon),
-                                                       selectCornetButton.OnClickAsObservable()
-                                                                         .Select(_ => Characters.Cornet));
-        }
+        return selectButton.OnClickAsObservable()
+                           .Select(_ => selectedChara);
+    }
 
-        return charaSelectedObservable;
+    public void SetPlayerIndex(int value)
+    {
+        playerLabelFrontText.text = playerLabelBackText.text = $"Player {value + 1}";
+
+        if (value != 0)
+        {
+            rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+        }
     }
 
     private void Start()
     {
-        playerLabelFrontText.text = playerLabelBackText.text = $"Player {playerNumber + 1}";
+        Observable.Merge(selectCurryButton.OnClickAsObservable()
+                                          .Select(_ => Characters.Curry),
+                         selectFranceButton.OnClickAsObservable()
+                                           .Select(_ => Characters.France),
+                         selectMelonButton.OnClickAsObservable()
+                                          .Select(_ => Characters.Melon),
+                         selectCornetButton.OnClickAsObservable()
+                                           .Select(_ => Characters.Cornet))
+                  .Subscribe(OnSelectCharaButtonClicked)
+                  .AddTo(this);
 
-        GetCharaSelectedObservable().Subscribe(OnSelectCharaButtonClicked)
-                                    .AddTo(this);
+        selectButton.OnClickAsObservable()
+                    .FirstOrDefault()
+                    .Subscribe(_ => buttonsPanel.SetActive(false))
+                    .AddTo(buttonsPanel);
     }
 
     private void OnSelectCharaButtonClicked(Characters character)
     {
+        this.selectedChara = character;
+
         statusPanelDirector.SetStatus(character);
         charaButtonsDirector.SetBgActive(character);
         displayCharaDirector.Display(character);
+
+        selectButton.gameObject.SetActive(true);
     }
 }

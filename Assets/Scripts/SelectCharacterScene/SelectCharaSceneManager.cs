@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UniRx;
 using Cysharp.Threading.Tasks;
@@ -7,13 +8,22 @@ using Cysharp.Threading.Tasks;
 public sealed class SelectCharaSceneManager : MonoBehaviour
 {
     [SerializeField]
-    private SelectCharaPanelDirector selectCharaPanelDirector1;
+    private PlayerInputManager playerInputManager;
 
     [SerializeField]
-    private SelectCharaPanelDirector selectCharaPanelDirector2;
+    private Text player1Text;
 
     [SerializeField]
-    private Button gameStartButton;
+    private Text player2Text;
+
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip jingleClip;
+
+    [SerializeField]
+    private Fade fade;
 
     [SerializeField]
     private string battleSceneName;
@@ -28,17 +38,32 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     private void Start()
     {
-        selectCharaPanelDirector1.GetCharaSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(0, c))
-                                 .AddTo(this);
+        playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
+    }
 
-        selectCharaPanelDirector2.GetCharaSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(1, c))
-                                 .AddTo(this);
+    private void OnPlayerJoined(PlayerInput playerInput)
+    {
+        var selectCharaPanelDirector = playerInput.gameObject.GetComponentInChildren<SelectCharaPanelDirector>();
+        if (selectCharaPanelDirector != null)
+        {
+            selectCharaPanelDirector.SetPlayerIndex(playerInput.playerIndex);
+            selectCharaPanelDirector.GetSelectedObservable()
+                                    .Subscribe(c => OnCharaSelected(playerInput.playerIndex, c))
+                                    .AddTo(this);
+        }
 
-        gameStartButton.OnClickAsObservable()
-                       .Subscribe(_ => OnStartButtonClicked().Forget())
-                       .AddTo(this);
+        if (playerInput.playerIndex == 0)
+        {
+            player1Text.gameObject.SetActive(false);
+            player2Text.gameObject.SetActive(true);
+        }
+        else if (playerInput.playerIndex >= 1)
+        {
+            player2Text.gameObject.SetActive(false);
+
+            // プレイヤーが2人になったら参加できなくする
+            playerInputManager.DisableJoining();
+        }
     }
 
     private void OnCharaSelected(int playerNumber, Characters character)
@@ -59,12 +84,22 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
         if (player1Selected && player2Selected)
         {
-            gameStartButton.gameObject.SetActive(true);
+            LoadBattleSceneAsync().Forget();
         }
     }
 
-    private async UniTaskVoid OnStartButtonClicked()
+    private async UniTaskVoid LoadBattleSceneAsync()
     {
+        // ジングルを再生する
+        audioSource.Stop();
+        audioSource.clip = jingleClip;
+        audioSource.loop = false;
+        audioSource.Play();
+
+        await UniTask.Delay(4000);
+
+        await fade.FadeIn(1.0f);
+
         await SceneManager.LoadSceneAsync(battleSceneName);
 
         if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
