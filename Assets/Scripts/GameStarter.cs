@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace SelectCharacter
 {
@@ -12,19 +13,24 @@ namespace SelectCharacter
         private CountDown countDown;
 
         [SerializeField]
+        private BattleFinish battleFinish;
+
+        [SerializeField]
         private Transform player1SpawnPoint;
 
         [SerializeField]
         private Transform player2SpawnPoint;
 
-        public async UniTaskVoid StartGame(Characters player1Chara, Characters player2Chara)
+        public async UniTaskVoid StartGame(CharaSelectData charaSelectData)
         {
             if (Screen.fullScreen)
             {
                 Cursor.visible = false; // マウスカーソルを非表示にする
             }
 
-            if (!charaPrefabsData.TryGetPrefab(player1Chara, out var player1Prefab))
+            battleFinish.SetCharacters(charaSelectData);
+
+            if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player1Chara, out var player1Prefab))
             {
                 return;
             }
@@ -35,10 +41,14 @@ namespace SelectCharacter
             player1Controller.SetDirection(1.0f); // 右向きにする
             player1Controller.enabled = false;
 
+            player1Controller.OnDownedObservable
+                             .Subscribe(_ => battleFinish.OnFinish(1).Forget())
+                             .AddTo(battleFinish);
+
             // キーボードで操作するオブジェクトを設定する
             GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(player1Controller.gameObject);
 
-            if (!charaPrefabsData.TryGetPrefab(player2Chara, out var player2Prefab))
+            if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
             {
                 return;
             }
@@ -47,6 +57,10 @@ namespace SelectCharacter
             player2Controller.SetPlayerNum(2);
             player2Controller.SetDirection(-1.0f); // 左向きにする
             player2Controller.enabled = false;
+
+            player2Controller.OnDownedObservable
+                             .Subscribe(_ => battleFinish.OnFinish(0).Forget())
+                             .AddTo(battleFinish);
 
             // ゲームパッドで操作するオブジェクトを設定する
             GameObject.Find("GamepadInput").GetComponent<GamepadInputManager>().SetPlayer(player2Controller.gameObject);

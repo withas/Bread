@@ -29,13 +29,16 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     private void Start()
     {
         selectCharaPanelDirector1.GetCharaSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(0, c));
+                                 .Subscribe(c => OnCharaSelected(0, c))
+                                 .AddTo(this);
 
         selectCharaPanelDirector2.GetCharaSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(1, c));
+                                 .Subscribe(c => OnCharaSelected(1, c))
+                                 .AddTo(this);
 
         gameStartButton.OnClickAsObservable()
-                       .Subscribe(_ => OnStartButtonClicked().Forget());
+                       .Subscribe(_ => OnStartButtonClicked().Forget())
+                       .AddTo(this);
     }
 
     private void OnCharaSelected(int playerNumber, Characters character)
@@ -64,30 +67,13 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     {
         await SceneManager.LoadSceneAsync(battleSceneName);
 
-        if (!TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
+        if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
         {
             return;
         }
 
-        gameStarter.StartGame(player1Character, player2Character).Forget();
-    }
+        var charaSelectData = new CharaSelectData(player1Character, player2Character);
 
-    private bool TryGetComponentInScene<TComponent>(string sceneName, out TComponent component) where TComponent : Component
-    {
-        var scene = SceneManager.GetSceneByName(battleSceneName);
-
-        var gameObjects = scene.GetRootGameObjects();
-
-        foreach (var gameObject in gameObjects)
-        {
-            component = gameObject.GetComponentInChildren<TComponent>();
-            if (component != null)
-            {
-                return true;
-            }
-        }
-
-        component = null;
-        return false;
+        gameStarter.StartGame(charaSelectData).Forget();
     }
 }
