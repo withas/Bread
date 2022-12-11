@@ -2326,6 +2326,7 @@ MonoBehaviour:
   selectFranceButton: {fileID: 2846530795604576061}
   selectMelonButton: {fileID: 2846530796358316892}
   selectCornetButton: {fileID: 2846530796262103266}
+  selectButton: {fileID: 4676074267435374219}
   playerLabelFrontText: {fileID: 2846530795866545848}
   playerLabelBackText: {fileID: 2846530796047851820}
   playerNumber: 0

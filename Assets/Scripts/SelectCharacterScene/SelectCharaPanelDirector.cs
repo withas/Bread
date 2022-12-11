@@ -27,6 +27,9 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     private Button selectCornetButton;
 
     [SerializeField]
+    private Button selectButton;
+
+    [SerializeField]
     private Text playerLabelFrontText;
 
     [SerializeField]
@@ -67,5 +70,7 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
         statusPanelDirector.SetStatus(character);
         charaButtonsDirector.SetBgActive(character);
         displayCharaDirector.Display(character);
+
+        selectButton.gameObject.SetActive(true);
     }
 }
