@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UniRx;
 using Cysharp.Threading.Tasks;
@@ -7,10 +7,7 @@ using Cysharp.Threading.Tasks;
 public sealed class SelectCharaSceneManager : MonoBehaviour
 {
     [SerializeField]
-    private SelectCharaPanelDirector selectCharaPanelDirector1;
-
-    [SerializeField]
-    private SelectCharaPanelDirector selectCharaPanelDirector2;
+    private PlayerInputManager playerInputManager;
 
     [SerializeField]
     private string battleSceneName;
@@ -25,13 +22,25 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     private void Start()
     {
-        selectCharaPanelDirector1.GetSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(0, c))
-                                 .AddTo(this);
+        playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
+    }
 
-        selectCharaPanelDirector2.GetSelectedObservable()
-                                 .Subscribe(c => OnCharaSelected(1, c))
-                                 .AddTo(this);
+    private void OnPlayerJoined(PlayerInput playerInput)
+    {
+        var selectCharaPanelDirector = playerInput.gameObject.GetComponentInChildren<SelectCharaPanelDirector>();
+        if (selectCharaPanelDirector != null)
+        {
+            selectCharaPanelDirector.SetPlayerIndex(playerInput.playerIndex);
+            selectCharaPanelDirector.GetSelectedObservable()
+                                    .Subscribe(c => OnCharaSelected(playerInput.playerIndex, c))
+                                    .AddTo(this);
+        }
+
+        // プレイヤーが2人になったら参加できなくする
+        if (playerInput.playerIndex >= 1)
+        {
+            playerInputManager.DisableJoining();
+        }
     }
 
     private void OnCharaSelected(int playerNumber, Characters character)

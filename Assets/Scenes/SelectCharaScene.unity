@@ -310,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectCharaPanelDirector1: {fileID: 0}
   selectCharaPanelDirector2: {fileID: 0}
+  playerInputManager: {fileID: 464523495}
   battleSceneName: BattleScene
 --- !u!114 &464523495
 MonoBehaviour:

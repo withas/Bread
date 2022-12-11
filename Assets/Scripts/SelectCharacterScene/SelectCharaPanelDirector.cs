@@ -6,6 +6,9 @@ using UniRx;
 public sealed class SelectCharaPanelDirector : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform rectTransform;
+
+    [SerializeField]
     private StatusPanelDirector statusPanelDirector;
 
     [SerializeField]
@@ -38,9 +41,6 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     [SerializeField]
     private Text playerLabelBackText;
 
-    [SerializeField]
-    private int playerNumber = 0;
-
     private Characters selectedChara;
 
     public IObservable<Characters> GetSelectedObservable()
@@ -49,10 +49,18 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
                            .Select(_ => selectedChara);
     }
 
+    public void SetPlayerIndex(int value)
+    {
+        playerLabelFrontText.text = playerLabelBackText.text = $"Player {value + 1}";
+
+        if (value != 0)
+        {
+            rectTransform.anchoredPosition = new Vector2(-rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
+        }
+    }
+
     private void Start()
     {
-        playerLabelFrontText.text = playerLabelBackText.text = $"Player {playerNumber + 1}";
-
         Observable.Merge(selectCurryButton.OnClickAsObservable()
                                           .Select(_ => Characters.Curry),
                          selectFranceButton.OnClickAsObservable()

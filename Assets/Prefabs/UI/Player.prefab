@@ -622,6 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6864e45f0a71c44b669e30bdc88559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 8756754542823841082}
   statusPanelDirector: {fileID: 8756754543179106965}
   charaButtonsDirector: {fileID: 4474039947769447599}
   displayCharaDirector: {fileID: 8756754543586192604}
@@ -633,7 +634,6 @@ MonoBehaviour:
   selectButton: {fileID: 2225365031521957371}
   playerLabelFrontText: {fileID: 8756754543581101512}
   playerLabelBackText: {fileID: 8756754543758393948}
-  playerNumber: 0
 --- !u!1 &8756754542831019862
 GameObject:
   m_ObjectHideFlags: 0
