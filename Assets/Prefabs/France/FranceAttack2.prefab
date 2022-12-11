@@ -135,5 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134255e71e99c774eb4da79e802e6127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 9
-  freezingTime: 0.2
+  charaStatusData: {fileID: 11400000, guid: 6d6cf5a6066f0cd40aadb1f0ed35c2fd, type: 2}
