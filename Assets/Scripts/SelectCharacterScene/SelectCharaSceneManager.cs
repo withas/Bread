@@ -17,6 +17,15 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     private Text player2Text;
 
     [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip jingleClip;
+
+    [SerializeField]
+    private Fade fade;
+
+    [SerializeField]
     private string battleSceneName;
 
     private Characters player1Character;
@@ -81,6 +90,16 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     private async UniTaskVoid LoadBattleSceneAsync()
     {
+        // ジングルを再生する
+        audioSource.Stop();
+        audioSource.clip = jingleClip;
+        audioSource.loop = false;
+        audioSource.Play();
+
+        await UniTask.Delay(4000);
+
+        await fade.FadeIn(1.0f);
+
         await SceneManager.LoadSceneAsync(battleSceneName);
 
         if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
