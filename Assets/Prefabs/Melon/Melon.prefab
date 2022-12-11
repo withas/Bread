@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f1788c6cd22414d9e3cd85a81a35a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 4343864049368993426}
   charaStatusData: {fileID: 11400000, guid: addfac062443b6f46b473459e66bba46, type: 2}
   barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
   canMove: 1

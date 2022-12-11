@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UniRx;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private PlayerInput playerInput;
+
     [SerializeField]
     private CharaStatusData charaStatusData;
 
