@@ -13,9 +13,6 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     private SelectCharaPanelDirector selectCharaPanelDirector2;
 
     [SerializeField]
-    private Button gameStartButton;
-
-    [SerializeField]
     private string battleSceneName;
 
     private Characters player1Character;
