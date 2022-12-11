@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace SelectCharacter
 {
@@ -24,16 +27,36 @@ namespace SelectCharacter
         private Text player2BackText;
 
         [SerializeField]
+        private Button charaSelectButton;
+
+        [SerializeField]
+        private Button retryButton;
+
+        [SerializeField]
         private CharaSpriteData winnerSpriteData;
 
         [SerializeField]
         private CharaSpriteData loserSpriteData;
+
+        [SerializeField]
+        private string charaSelectSceneName;
+
+        [SerializeField]
+        private string battleSceneName;
 
         private CharaSelectData charaSelectData;
 
         public void ShowResult(CharaSelectData charaSelectData, int winnerNumber)
         {
             this.charaSelectData = charaSelectData;
+
+            charaSelectButton.OnClickAsObservable()
+                             .Subscribe(_ => OnCharaSelectButtonClicked())
+                             .AddTo(this);
+
+            retryButton.OnClickAsObservable()
+                       .Subscribe(_ => OnRetrySelected().Forget())
+                       .AddTo(this);
 
             if (winnerNumber == 0)
             {
@@ -63,6 +86,23 @@ namespace SelectCharacter
                 }
                 player1FrontText.text = player1BackText.text = "LOSE";
             }
+        }
+
+        private void OnCharaSelectButtonClicked()
+        {
+            SceneManager.LoadScene(charaSelectSceneName);
+        }
+
+        private async UniTaskVoid OnRetrySelected()
+        {
+            await SceneManager.LoadSceneAsync(battleSceneName);
+
+            if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
+            {
+                return;
+            }
+
+            gameStarter.StartGame(charaSelectData).Forget();
         }
     }
 }

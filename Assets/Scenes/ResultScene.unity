@@ -491,8 +491,12 @@ MonoBehaviour:
   player1BackText: {fileID: 1805830608}
   player2FrontText: {fileID: 12071609}
   player2BackText: {fileID: 1443429874}
+  charaSelectButton: {fileID: 716610326}
+  retryButton: {fileID: 688790448}
   winnerSpriteData: {fileID: 11400000, guid: 70ba45f5edc30a348b6d174d74150034, type: 2}
   loserSpriteData: {fileID: 11400000, guid: 97ca65817a4743d47b50a7818498a2ac, type: 2}
+  charaSelectSceneName: SelectCharaScene
+  battleSceneName: BattleScene
 --- !u!4 &663794683
 Transform:
   m_ObjectHideFlags: 0
@@ -612,7 +616,6 @@ GameObject:
   - component: {fileID: 688790450}
   - component: {fileID: 688790449}
   - component: {fileID: 688790448}
-  - component: {fileID: 688790447}
   m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
@@ -641,18 +644,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &688790447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 688790445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8649f34cc798974a99e13f4be5ecc01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &688790448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,19 +687,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 688790449}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 688790447}
-        m_TargetAssemblyTypeName: ResultButton, Assembly-CSharp
-        m_MethodName: RetryBattle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &688790449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,7 +738,6 @@ GameObject:
   - component: {fileID: 716610328}
   - component: {fileID: 716610327}
   - component: {fileID: 716610326}
-  - component: {fileID: 716610325}
   m_Layer: 5
   m_Name: GoToSelect
   m_TagString: Untagged
@@ -788,18 +766,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &716610325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716610323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8649f34cc798974a99e13f4be5ecc01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &716610326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,19 +809,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 716610327}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 716610325}
-        m_TargetAssemblyTypeName: ResultButton, Assembly-CSharp
-        m_MethodName: GotoSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &716610327
 MonoBehaviour:
   m_ObjectHideFlags: 0
