@@ -5,13 +5,12 @@ using UniRx;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private CharaStatusData charaStatusData;
+
     // ガード関係
     [SerializeField]
     private GameObject barrierPrefab;
-
-    // ガード時にダメージを何割にするか
-    [SerializeField]
-    private float guardingRatio;
 
     // バリアのオブジェクトを入れる
     private GameObject barrier;
@@ -22,19 +21,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidBody; // Rigidbodyコンポーネント
     protected Animator animator; // Animatorコンポーネント
     private SpriteRenderer spriteRenderer;
-
-    // キャラクターステータス関連
-    // 最大HP
-    [SerializeField]
-    private int maxHp = 50;
-
-    // 移動速度
-    [SerializeField]
-    private float moveSpeed = 3;
-
-    // ジャンプのときにかかる力
-    [SerializeField]
-    private float jumpForce = 200.0f;
 
     // ステータス状態
     private int hp; // 現在のHP
@@ -58,16 +44,6 @@ public class PlayerController : MonoBehaviour
 
     public IObservable<Unit> OnDownedObservable => onDownedSubject;
 
-    public int GetMaxHp() { return this.maxHp; }
-
-    public int GetHp() { return this.hp; }
-
-    public float GetSpeed() { return this.moveSpeed; }
-
-    public float GetJump() { return this.jumpForce; }
-
-    public float GetGuardingRatio() { return this.guardingRatio; }
-
     // プレイヤー1or2を識別
     public void SetPlayerNum(int num)
     {
@@ -83,8 +59,8 @@ public class PlayerController : MonoBehaviour
 
     protected void Start()
     {
-        this.slider.maxValue = this.maxHp;
-        this.hp = this.maxHp;
+        this.slider.maxValue = charaStatusData.MaxHP;
+        this.hp = charaStatusData.MaxHP;
         this.slider.value = this.hp;
 
         // コンポーネントを取得する
@@ -119,7 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         const float power = 20;
 
-        this.rigidBody.AddForce(Vector3.right * ((this.moveSpeed * this.inputX - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
+        this.rigidBody.AddForce(Vector3.right * ((charaStatusData.MoveSpeed * this.inputX - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
     }
 
     // 向きを変える
@@ -172,7 +148,7 @@ public class PlayerController : MonoBehaviour
     // Jumpアニメーション中に呼び出す
     public void Jump()
     {
-        this.rigidBody.AddForce(this.transform.up * this.jumpForce);
+        this.rigidBody.AddForce(this.transform.up * charaStatusData.JumpForce);
 
         this.isJumping = true;
     }
@@ -233,7 +209,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            this.hp -= (int)(damage * guardingRatio);
+            this.hp -= (int)(damage * charaStatusData.GuardingRatio);
 
             this.audioSource.PlayOneShot(clips[2]);
         }

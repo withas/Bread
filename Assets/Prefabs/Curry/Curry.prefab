@@ -32,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000821035654453135}
   - {fileID: 1896586350279270265}
@@ -93,7 +94,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &614972602243299151
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,6 +107,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -159,11 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5211bd4ad677f6545a23290b01f28389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charaStatusData: {fileID: 11400000, guid: 8b21065b859d2464796ec44b2d1c283e, type: 2}
   barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
-  guardingRatio: 0.67
-  maxHp: 150
-  moveSpeed: 3
-  jumpForce: 300
   canMove: 1
   clips:
   - {fileID: 8300000, guid: a6346f3ac0bec2c46a08cacf8a35540d, type: 3}
@@ -293,6 +292,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 614972602243299149}
   m_RootOrder: 1
@@ -325,6 +325,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 614972602243299149}
   m_RootOrder: 0
