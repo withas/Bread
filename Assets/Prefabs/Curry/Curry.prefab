@@ -358,8 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02cbba0f1c037e4ebfb5ae5f0983598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 15
-  freezingTime: 0.3
+  charaStatusData: {fileID: 11400000, guid: 8b21065b859d2464796ec44b2d1c283e, type: 2}
 --- !u!1001 &4136785158630995435
 PrefabInstance:
   m_ObjectHideFlags: 0
