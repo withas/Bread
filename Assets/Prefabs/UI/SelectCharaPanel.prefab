@@ -2322,6 +2322,7 @@ MonoBehaviour:
   statusPanelDirector: {fileID: 2846530795464501733}
   charaButtonsDirector: {fileID: 6922084102838495199}
   displayCharaDirector: {fileID: 2846530795854335916}
+  buttonsPanel: {fileID: 7540882966296864900}
   selectCurryButton: {fileID: 2846530796285321865}
   selectFranceButton: {fileID: 2846530795604576061}
   selectMelonButton: {fileID: 2846530796358316892}

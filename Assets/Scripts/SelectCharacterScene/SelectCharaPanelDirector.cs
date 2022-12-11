@@ -15,6 +15,9 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     private DisplayCharaDirector displayCharaDirector;
 
     [SerializeField]
+    private GameObject buttonsPanel;
+
+    [SerializeField]
     private Button selectCurryButton;
 
     [SerializeField]
@@ -60,6 +63,11 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
                                            .Select(_ => Characters.Cornet))
                   .Subscribe(OnSelectCharaButtonClicked)
                   .AddTo(this);
+
+        selectButton.OnClickAsObservable()
+                    .FirstOrDefault()
+                    .Subscribe(_ => buttonsPanel.SetActive(false))
+                    .AddTo(buttonsPanel);
     }
 
     private void OnSelectCharaButtonClicked(Characters character)
