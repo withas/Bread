@@ -21,16 +21,16 @@ namespace SelectCharacter
         [SerializeField]
         private Transform player2SpawnPoint;
 
-        public async UniTaskVoid StartGame(Characters player1Chara, Characters player2Chara)
+        public async UniTaskVoid StartGame(CharaSelectData charaSelectData)
         {
             if (Screen.fullScreen)
             {
                 Cursor.visible = false; // マウスカーソルを非表示にする
             }
 
-            battleFinish.SetCharacters(player1Chara, player2Chara);
+            battleFinish.SetCharacters(charaSelectData);
 
-            if (!charaPrefabsData.TryGetPrefab(player1Chara, out var player1Prefab))
+            if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player1Chara, out var player1Prefab))
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace SelectCharacter
             // キーボードで操作するオブジェクトを設定する
             GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(player1Controller.gameObject);
 
-            if (!charaPrefabsData.TryGetPrefab(player2Chara, out var player2Prefab))
+            if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
             {
                 return;
             }

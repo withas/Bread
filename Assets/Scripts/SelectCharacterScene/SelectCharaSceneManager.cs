@@ -72,6 +72,8 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
             return;
         }
 
-        gameStarter.StartGame(player1Character, player2Character).Forget();
+        var charaSelectData = new CharaSelectData(player1Character, player2Character);
+
+        gameStarter.StartGame(charaSelectData).Forget();
     }
 }

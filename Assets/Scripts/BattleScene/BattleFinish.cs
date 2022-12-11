@@ -18,14 +18,11 @@ public sealed class BattleFinish : MonoBehaviour
     [SerializeField]
     private string resultSceneName;
 
-    private Characters player1Chara;
+    private CharaSelectData charaSelectData;
 
-    private Characters player2Chara;
-
-    public void SetCharacters(Characters player1Chara, Characters player2Chara)
+    public void SetCharacters(CharaSelectData charaSelectData)
     {
-        this.player1Chara = player1Chara;
-        this.player2Chara = player2Chara;
+        this.charaSelectData = charaSelectData;
     }
 
     public async UniTaskVoid OnFinish(int playerNumber)
@@ -41,7 +38,7 @@ public sealed class BattleFinish : MonoBehaviour
 
         if (SceneManagerExtension.TryGetComponentInScene<ResultSceneManager>(resultSceneName, out var resultSceneManager))
         {
-            resultSceneManager.ShowResult(player1Chara, player2Chara, playerNumber);
+            resultSceneManager.ShowResult(charaSelectData, playerNumber);
         }
     }
 }

@@ -29,17 +29,21 @@ namespace SelectCharacter
         [SerializeField]
         private CharaSpriteData loserSpriteData;
 
-        public void ShowResult(Characters player1Chara, Characters player2Chara, int winnerNumber)
+        private CharaSelectData charaSelectData;
+
+        public void ShowResult(CharaSelectData charaSelectData, int winnerNumber)
         {
+            this.charaSelectData = charaSelectData;
+
             if (winnerNumber == 0)
             {
-                if (winnerSpriteData.TryGetSprite(player1Chara, out var winnerSprite))
+                if (winnerSpriteData.TryGetSprite(charaSelectData.Player1Chara, out var winnerSprite))
                 {
                     player1Image.sprite = winnerSprite;
                 }
                 player1FrontText.text = player1BackText.text = "WIN";
 
-                if (loserSpriteData.TryGetSprite(player2Chara, out var loserSprite))
+                if (loserSpriteData.TryGetSprite(charaSelectData.Player2Chara, out var loserSprite))
                 {
                     player2Image.sprite = loserSprite;
                 }
@@ -47,13 +51,13 @@ namespace SelectCharacter
             }
             else if (winnerNumber == 1)
             {
-                if (winnerSpriteData.TryGetSprite(player2Chara, out var winnerSprite))
+                if (winnerSpriteData.TryGetSprite(charaSelectData.Player2Chara, out var winnerSprite))
                 {
                     player2Image.sprite = winnerSprite;
                 }
                 player2FrontText.text = player2BackText.text = "WIN";
 
-                if (loserSpriteData.TryGetSprite(player1Chara, out var loserSprite))
+                if (loserSpriteData.TryGetSprite(charaSelectData.Player1Chara, out var loserSprite))
                 {
                     player1Image.sprite = loserSprite;
                 }
