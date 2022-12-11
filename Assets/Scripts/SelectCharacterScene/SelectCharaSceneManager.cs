@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UniRx;
@@ -8,6 +9,12 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 {
     [SerializeField]
     private PlayerInputManager playerInputManager;
+
+    [SerializeField]
+    private Text player1Text;
+
+    [SerializeField]
+    private Text player2Text;
 
     [SerializeField]
     private string battleSceneName;
@@ -36,9 +43,16 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
                                     .AddTo(this);
         }
 
-        // プレイヤーが2人になったら参加できなくする
-        if (playerInput.playerIndex >= 1)
+        if (playerInput.playerIndex == 0)
         {
+            player1Text.gameObject.SetActive(false);
+            player2Text.gameObject.SetActive(true);
+        }
+        else if (playerInput.playerIndex >= 1)
+        {
+            player2Text.gameObject.SetActive(false);
+
+            // プレイヤーが2人になったら参加できなくする
             playerInputManager.DisableJoining();
         }
     }
