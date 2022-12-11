@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27eec46e379f7144ba586d1941fa3d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charaPrefabsData: {fileID: 11400000, guid: f1e29a385f27792429b163db35bcf22e, type: 2}
+  charaStatusDictionary: {fileID: 11400000, guid: 5ef0ca57728eb84428024eefef55bf04, type: 2}
   hpSlider: {fileID: 8756754543572828946}
   attackSlider: {fileID: 8756754543634146986}
   speedSlider: {fileID: 8756754543140430206}
