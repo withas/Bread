@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PunchController : MonoBehaviour {
+public sealed class PunchController : MonoBehaviour
+{
     // 技の性能
-    [SerializeField] private int power = 10; // 威力
-    [SerializeField] private float freezingTime = 0.3f; // 硬直時間
+    [SerializeField]
+    private int power = 10; // 威力
 
-    public int GetPower() { return this.power; }
+    [SerializeField]
+    private float freezingTime = 0.3f; // 硬直時間
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        GameObject otherObject = other.gameObject;
-
-        if (otherObject.tag == "Player") {
-            PlayerController hitPlayer = otherObject.GetComponent<PlayerController>();
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        var otherObject = other.gameObject;
+        if (otherObject.tag == "Player" && otherObject.TryGetComponent<PlayerController>(out var hitPlayer))
+        {
             hitPlayer.OnDamage(this.power, this.freezingTime);
         }
     }
