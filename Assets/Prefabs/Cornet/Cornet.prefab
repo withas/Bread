@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 614972602243299151}
   - component: {fileID: 614972602243299148}
   - component: {fileID: 1488322484514289200}
-  - component: {fileID: 2327111904350324128}
   - component: {fileID: 8980062469547181433}
+  - component: {fileID: 2090853986580707661}
+  - component: {fileID: 2327111904350324128}
   m_Layer: 9
   m_Name: Cornet
   m_TagString: Player
@@ -149,27 +150,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.059339106, y: 0.6568587}
   m_Size: {x: 0.30224496, y: 1.2009435}
   m_Direction: 0
---- !u!114 &2327111904350324128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614972602243299144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab1e0a2eb0ae1e248ae33f6c6bc7affd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charaStatusData: {fileID: 11400000, guid: 2d4cded8c3f50fe49a9a2bff1775fec0, type: 2}
-  barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
-  canMove: 1
-  clips:
-  - {fileID: 8300000, guid: a6346f3ac0bec2c46a08cacf8a35540d, type: 3}
-  - {fileID: 8300000, guid: c583e58eae25f6f429e593928e9bd666, type: 3}
-  - {fileID: 8300000, guid: f55d723631e02a94a91ce2933ad39eaf, type: 3}
-  attack2Prefab: {fileID: 8979472193744931253, guid: df63f6a29e697ca42829664fd1ca56de, type: 3}
-  attack2Point: {fileID: 3201957885315788317}
 --- !u!82 &8980062469547181433
 AudioSource:
   m_ObjectHideFlags: 0
@@ -266,6 +246,57 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2090853986580707661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614972602243299144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 6bbc636bc62bd9444ad7b247d15d5af5, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &2327111904350324128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614972602243299144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1e0a2eb0ae1e248ae33f6c6bc7affd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaStatusData: {fileID: 11400000, guid: 2d4cded8c3f50fe49a9a2bff1775fec0, type: 2}
+  barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
+  canMove: 1
+  clips:
+  - {fileID: 8300000, guid: a6346f3ac0bec2c46a08cacf8a35540d, type: 3}
+  - {fileID: 8300000, guid: c583e58eae25f6f429e593928e9bd666, type: 3}
+  - {fileID: 8300000, guid: f55d723631e02a94a91ce2933ad39eaf, type: 3}
+  attack2Prefab: {fileID: 8979472193744931253, guid: df63f6a29e697ca42829664fd1ca56de, type: 3}
+  attack2Point: {fileID: 3201957885315788317}
 --- !u!1 &3201957885315788317
 GameObject:
   m_ObjectHideFlags: 0
