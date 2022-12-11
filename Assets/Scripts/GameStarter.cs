@@ -45,9 +45,6 @@ namespace SelectCharacter
                              .Subscribe(_ => battleFinish.OnFinish(1).Forget())
                              .AddTo(battleFinish);
 
-            // キーボードで操作するオブジェクトを設定する
-            GameObject.Find("KeyboardInput").GetComponent<KeyboardInputManager>().SetPlayer(player1Controller.gameObject);
-
             if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
             {
                 return;
@@ -61,9 +58,6 @@ namespace SelectCharacter
             player2Controller.OnDownedObservable
                              .Subscribe(_ => battleFinish.OnFinish(0).Forget())
                              .AddTo(battleFinish);
-
-            // ゲームパッドで操作するオブジェクトを設定する
-            GameObject.Find("GamepadInput").GetComponent<GamepadInputManager>().SetPlayer(player2Controller.gameObject);
 
             await countDown.CountDownAsync();
 
