@@ -38,35 +38,34 @@ public sealed class SelectCharaPanelDirector : MonoBehaviour
     [SerializeField]
     private int playerNumber = 0;
 
-    private IObservable<Characters> charaSelectedObservable;
+    private Characters selectedChara;
 
-    public IObservable<Characters> GetCharaSelectedObservable()
+    public IObservable<Characters> GetSelectedObservable()
     {
-        if (charaSelectedObservable == null)
-        {
-            charaSelectedObservable = Observable.Merge(selectCurryButton.OnClickAsObservable()
-                                                                        .Select(_ => Characters.Curry),
-                                                       selectFranceButton.OnClickAsObservable()
-                                                                         .Select(_ => Characters.France),
-                                                       selectMelonButton.OnClickAsObservable()
-                                                                        .Select(_ => Characters.Melon),
-                                                       selectCornetButton.OnClickAsObservable()
-                                                                         .Select(_ => Characters.Cornet));
-        }
-
-        return charaSelectedObservable;
+        return selectButton.OnClickAsObservable()
+                           .Select(_ => selectedChara);
     }
 
     private void Start()
     {
         playerLabelFrontText.text = playerLabelBackText.text = $"Player {playerNumber + 1}";
 
-        GetCharaSelectedObservable().Subscribe(OnSelectCharaButtonClicked)
-                                    .AddTo(this);
+        Observable.Merge(selectCurryButton.OnClickAsObservable()
+                                          .Select(_ => Characters.Curry),
+                         selectFranceButton.OnClickAsObservable()
+                                           .Select(_ => Characters.France),
+                         selectMelonButton.OnClickAsObservable()
+                                          .Select(_ => Characters.Melon),
+                         selectCornetButton.OnClickAsObservable()
+                                           .Select(_ => Characters.Cornet))
+                  .Subscribe(OnSelectCharaButtonClicked)
+                  .AddTo(this);
     }
 
     private void OnSelectCharaButtonClicked(Characters character)
     {
+        this.selectedChara = character;
+
         statusPanelDirector.SetStatus(character);
         charaButtonsDirector.SetBgActive(character);
         displayCharaDirector.Display(character);

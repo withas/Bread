@@ -28,17 +28,13 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     private void Start()
     {
-        selectCharaPanelDirector1.GetCharaSelectedObservable()
+        selectCharaPanelDirector1.GetSelectedObservable()
                                  .Subscribe(c => OnCharaSelected(0, c))
                                  .AddTo(this);
 
-        selectCharaPanelDirector2.GetCharaSelectedObservable()
+        selectCharaPanelDirector2.GetSelectedObservable()
                                  .Subscribe(c => OnCharaSelected(1, c))
                                  .AddTo(this);
-
-        gameStartButton.OnClickAsObservable()
-                       .Subscribe(_ => OnStartButtonClicked().Forget())
-                       .AddTo(this);
     }
 
     private void OnCharaSelected(int playerNumber, Characters character)
@@ -59,11 +55,11 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
         if (player1Selected && player2Selected)
         {
-            gameStartButton.gameObject.SetActive(true);
+            LoadBattleSceneAsync().Forget();
         }
     }
 
-    private async UniTaskVoid OnStartButtonClicked()
+    private async UniTaskVoid LoadBattleSceneAsync()
     {
         await SceneManager.LoadSceneAsync(battleSceneName);
 
