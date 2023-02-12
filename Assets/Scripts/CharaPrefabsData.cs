@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharaPrefabsData", menuName = "ScriptableObjects/CreateCharaPrefabsData")]
+[CreateAssetMenu(fileName = "CharaPrefabsData", menuName = "ScriptableObjects/CharaPrefabsData")]
 public sealed class CharaPrefabsData : ScriptableObject
 {
     [SerializeField]

@@ -1,26 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MelonAttack2Controller : MonoBehaviour {
+public sealed class MelonAttack2Controller : MonoBehaviour
+{
     // 技の性能
-    [SerializeField] private int power = 5; // 威力
-    [SerializeField] private float freezingTime = 0.2f; // 硬直時間
-
-    public int GetPower() { return this.power; }
+    [SerializeField]
+    private CharaStatusData charaStatusData;
 
     // アニメーションの最後に呼び出す
-    public void AnimationEnd() {
+    public void AnimationEnd()
+    {
         this.transform.parent.gameObject.GetComponent<MelonController>().EndAttack2();
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        GameObject otherObject = other.gameObject;
-
-        if (otherObject.tag == "Player") {
-            PlayerController hitPlayer = otherObject.GetComponent<PlayerController>();
-            hitPlayer.OnDamage(this.power, this.freezingTime);
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var otherObject = other.gameObject;
+        if (otherObject.tag == "Player" && otherObject.TryGetComponent<PlayerController>(out var hitPlayer))
+        {
+            hitPlayer.OnDamage(charaStatusData.Attack2Power, charaStatusData.Attack2FreezingTime);
         }
     }
 }

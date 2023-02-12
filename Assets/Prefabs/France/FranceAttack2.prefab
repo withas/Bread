@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,12 +100,12 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.7831069, y: 0.77455896}
-  m_Size: {x: 0.48323423, y: 0.18477227}
+  m_Offset: {x: -2.3317, y: 2.31}
+  m_Size: {x: 1.3502, y: 0.5}
   m_Direction: 1
 --- !u!95 &8702581959227553939
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,6 +118,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -133,5 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134255e71e99c774eb4da79e802e6127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 9
-  freezingTime: 0.2
+  charaStatusData: {fileID: 11400000, guid: 6d6cf5a6066f0cd40aadb1f0ed35c2fd, type: 2}

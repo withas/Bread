@@ -1,17 +1,32 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UniRx;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private CharaStatusData charaStatusData;
+
     // ガード関係
     [SerializeField]
     private GameObject barrierPrefab;
 
-    // ガード時にダメージを何割にするか
+    // サウンド関連
+    // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
     [SerializeField]
-    private float guardingRatio;
+    private AudioClip[] clips;
+
+    private PlayerInput playerInput;
+
+    public void SetPlayerInput(PlayerInput playerInput)
+    {
+        if (playerInput != null)
+        {
+            this.playerInput = playerInput;
+        }
+    }
 
     // バリアのオブジェクトを入れる
     private GameObject barrier;
@@ -23,19 +38,6 @@ public class PlayerController : MonoBehaviour
     protected Animator animator; // Animatorコンポーネント
     private SpriteRenderer spriteRenderer;
 
-    // キャラクターステータス関連
-    // 最大HP
-    [SerializeField]
-    private int maxHp = 50;
-
-    // 移動速度
-    [SerializeField]
-    private float moveSpeed = 3;
-
-    // ジャンプのときにかかる力
-    [SerializeField]
-    private float jumpForce = 200.0f;
-
     // ステータス状態
     private int hp; // 現在のHP
 
@@ -45,11 +47,6 @@ public class PlayerController : MonoBehaviour
 
     private float inputX;
 
-    // サウンド関連
-    // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
-    [SerializeField]
-    private AudioClip[] clips;
-
     private AudioSource audioSource;
 
     private int playerNum;
@@ -57,16 +54,6 @@ public class PlayerController : MonoBehaviour
     private Subject<Unit> onDownedSubject = new Subject<Unit>();
 
     public IObservable<Unit> OnDownedObservable => onDownedSubject;
-
-    public int GetMaxHp() { return this.maxHp; }
-
-    public int GetHp() { return this.hp; }
-
-    public float GetSpeed() { return this.moveSpeed; }
-
-    public float GetJump() { return this.jumpForce; }
-
-    public float GetGuardingRatio() { return this.guardingRatio; }
 
     // プレイヤー1or2を識別
     public void SetPlayerNum(int num)
@@ -81,10 +68,38 @@ public class PlayerController : MonoBehaviour
         onDownedSubject.AddTo(this);
     }
 
+    private void OnEnable()
+    {
+        if (playerInput != null)
+        {
+            playerInput.actions["Move"].performed += OnMove;
+            playerInput.actions["Move"].canceled += OnMoveStop;
+            playerInput.actions["Jump"].started += OnJump;
+            playerInput.actions["Attack1"].started += OnAttack1;
+            playerInput.actions["Attack2"].started += OnAttack2;
+            playerInput.actions["Guard"].started += OnGuard;
+            playerInput.actions["Guard"].canceled += OnGuardStop;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (playerInput != null)
+        {
+            playerInput.actions["Move"].performed -= OnMove;
+            playerInput.actions["Move"].canceled -= OnMoveStop;
+            playerInput.actions["Jump"].started -= OnJump;
+            playerInput.actions["Attack1"].started -= OnAttack1;
+            playerInput.actions["Attack2"].started -= OnAttack2;
+            playerInput.actions["Guard"].started -= OnGuard;
+            playerInput.actions["Guard"].canceled -= OnGuardStop;
+        }
+    }
+
     protected void Start()
     {
-        this.slider.maxValue = this.maxHp;
-        this.hp = this.maxHp;
+        this.slider.maxValue = charaStatusData.MaxHP;
+        this.hp = charaStatusData.MaxHP;
         this.slider.value = this.hp;
 
         // コンポーネントを取得する
@@ -108,18 +123,41 @@ public class PlayerController : MonoBehaviour
         {
             this.animator.SetBool("IsFreezing", true);
             this.freezingTime -= Time.deltaTime;
-            if (this.freezingTime <= 0) this.spriteRenderer.color = new Color(255.0f, 255.0f, 255.0f);
+            if (this.freezingTime <= 0)
+            {
+                this.spriteRenderer.color = new Color(255.0f, 255.0f, 255.0f);
+            }
         }
-        else this.animator.SetBool("IsFreezing", false);
+        else
+        {
+            this.animator.SetBool("IsFreezing", false);
+        }
 
-        if (this.isJumping) this.animator.SetFloat("YSpeed", this.rigidBody.velocity.y);
+        if (this.isJumping)
+        {
+            this.animator.SetFloat("YSpeed", this.rigidBody.velocity.y);
+        }
     }
 
     private void FixedUpdate()
     {
         const float power = 20;
 
-        this.rigidBody.AddForce(Vector3.right * ((this.moveSpeed * this.inputX - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
+        float x = inputX;
+
+        // 移動禁止中、もしくは硬直中は速度を0にする
+        if (!this.canMove || this.isGuarding || this.freezingTime > 0)
+        {
+            x = 0;
+        }
+
+        // ジャンプ中は向きを変えない
+        if (!isJumping)
+        {
+            this.SetDirection(x);
+        }
+
+        this.rigidBody.AddForce(Vector3.right * ((charaStatusData.MoveSpeed * x - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
     }
 
     // 向きを変える
@@ -136,25 +174,29 @@ public class PlayerController : MonoBehaviour
     }
 
     // どんなときでも1フレームに1回呼ばれる。xにはx軸方向の入力が渡される
-    public void OnMove(float x)
+    private void OnMove(InputAction.CallbackContext context)
     {
-        // 移動禁止中、もしくは硬直中は速度を0にする
-        if (!this.canMove || this.isGuarding || this.freezingTime > 0) x = 0;
+        var value = context.ReadValue<Vector2>();
 
-        // ジャンプ中は向きを変えない
-        if (!isJumping) this.SetDirection(x);
+        this.animator.SetFloat("Speed", Mathf.Abs(value.x));
 
-        this.animator.SetFloat("Speed", Mathf.Abs(x));
+        this.inputX = value.x;
+    }
 
-        // this.rb.velocity = new Vector2(x * this.moveSpeed, this.rb.velocity.y);
-        this.inputX = x;
+    private void OnMoveStop(InputAction.CallbackContext context)
+    {
+        animator.SetFloat("Speed", Mathf.Abs(0));
+        inputX = 0;
     }
 
     // ジャンプキーが押されたときに呼ばれる
-    public void OnJump()
+    private void OnJump(InputAction.CallbackContext context)
     {
         // ジャンプ中はジャンプできない
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Jump");
     }
@@ -162,42 +204,53 @@ public class PlayerController : MonoBehaviour
     // 着地するときにFootPointから呼ばれる
     public void OnGround()
     {
-        if (this.isJumping)
+        if (!this.isJumping)
         {
-            this.animator.SetTrigger("OnGround");
-            this.isJumping = false;
+            return;
         }
+
+        this.animator.SetTrigger("OnGround");
+        this.isJumping = false;
     }
 
     // Jumpアニメーション中に呼び出す
-    public void Jump()
+    private void Jump()
     {
-        this.rigidBody.AddForce(this.transform.up * this.jumpForce);
+        this.rigidBody.AddForce(this.transform.up * charaStatusData.JumpForce);
 
         this.isJumping = true;
     }
 
     // Attack1ボタンが押されたときに呼ばれる
-    public void OnAttack1()
+    private void OnAttack1(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Attack1");
     }
 
     // Attack2ボタンが押されたときに呼ばれる
-    public void OnAttack2()
+    private void OnAttack2(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Attack2");
         audioSource.PlayOneShot(clips[1]);
     }
 
     // ガードキーが押されているときに呼ぶ
-    public void OnGuard()
+    private void OnGuard(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         // バリアを子オブジェクトとして生成する
         this.barrier = Instantiate(barrierPrefab);
@@ -208,10 +261,13 @@ public class PlayerController : MonoBehaviour
     }
 
     // ガードキーが離されたときに呼ぶ
-    public void OffGuard()
+    private void OnGuardStop(InputAction.CallbackContext context)
     {
         // バリアを消す
-        if (this.barrier != null) Destroy(this.barrier);
+        if (this.barrier != null)
+        {
+            Destroy(this.barrier);
+        }
 
         this.isGuarding = false;
     }
@@ -219,7 +275,11 @@ public class PlayerController : MonoBehaviour
     // 攻撃を受けたときに呼ばれる。ダメージ量と硬直時間を引数に受け取る
     public virtual void OnDamage(int damage, float freezingTime)
     {
-        if (this.hp <= 0) return; // 死んでいたらダメージを受けない
+        // 死んでいたらダメージを受けない
+        if (this.hp <= 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("IsHurt");
 
@@ -233,7 +293,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            this.hp -= (int)(damage * guardingRatio);
+            this.hp -= (int)(damage * charaStatusData.GuardingRatio);
 
             this.audioSource.PlayOneShot(clips[2]);
         }

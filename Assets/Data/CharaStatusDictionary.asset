@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f4dac508e56c8d4fac7421a246f1bb3, type: 3}
+  m_Name: CharaStatusDictionary
+  m_EditorClassIdentifier: 
+  curryStatusData: {fileID: 11400000, guid: 8b21065b859d2464796ec44b2d1c283e, type: 2}
+  franceStatusData: {fileID: 11400000, guid: 6d6cf5a6066f0cd40aadb1f0ed35c2fd, type: 2}
+  melonStatusData: {fileID: 11400000, guid: addfac062443b6f46b473459e66bba46, type: 2}
+  cornetStatusData: {fileID: 11400000, guid: 2d4cded8c3f50fe49a9a2bff1775fec0, type: 2}

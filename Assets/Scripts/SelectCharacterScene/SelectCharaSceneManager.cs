@@ -11,6 +11,9 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
     private PlayerInputManager playerInputManager;
 
     [SerializeField]
+    private SelectCharaCanvas SelectCharaCanvasPrefab;
+
+    [SerializeField]
     private Text player1Text;
 
     [SerializeField]
@@ -36,21 +39,28 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
     private bool player2Selected = false;
 
-    private void Start()
+    private void OnEnable()
     {
-        playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
+        playerInputManager.onPlayerJoined += OnPlayerJoined;
+    }
+
+    private void OnDisable()
+    {
+        playerInputManager.onPlayerJoined -= OnPlayerJoined;
     }
 
     private void OnPlayerJoined(PlayerInput playerInput)
     {
-        var selectCharaPanelDirector = playerInput.gameObject.GetComponentInChildren<SelectCharaPanelDirector>();
-        if (selectCharaPanelDirector != null)
-        {
-            selectCharaPanelDirector.SetPlayerIndex(playerInput.playerIndex);
-            selectCharaPanelDirector.GetSelectedObservable()
-                                    .Subscribe(c => OnCharaSelected(playerInput.playerIndex, c))
-                                    .AddTo(this);
-        }
+        // キャラクター選択のCanvasを生成する
+        var selectCharaCanvas = Instantiate(SelectCharaCanvasPrefab);
+
+        selectCharaCanvas.SelectCharaPanelDirector.SetPlayerIndex(playerInput.playerIndex);
+
+        selectCharaCanvas.SelectCharaPanelDirector.GetSelectedObservable()
+                                                  .Subscribe(c => OnCharaSelected(playerInput.playerIndex, c))
+                                                  .AddTo(this);
+
+        playerInput.uiInputModule = selectCharaCanvas.UIInputModule;
 
         if (playerInput.playerIndex == 0)
         {

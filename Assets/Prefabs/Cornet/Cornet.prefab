@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 614972602243299151}
   - component: {fileID: 614972602243299148}
   - component: {fileID: 1488322484514289200}
-  - component: {fileID: 2327111904350324128}
   - component: {fileID: 8980062469547181433}
+  - component: {fileID: 2327111904350324128}
   m_Layer: 9
   m_Name: Cornet
   m_TagString: Player
@@ -32,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9213529999628847008}
   - {fileID: 8488263170788943313}
@@ -93,7 +94,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &614972602243299151
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,6 +107,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -147,30 +149,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.059339106, y: 0.6568587}
   m_Size: {x: 0.30224496, y: 1.2009435}
   m_Direction: 0
---- !u!114 &2327111904350324128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614972602243299144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab1e0a2eb0ae1e248ae33f6c6bc7affd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
-  guardingRatio: 0.67
-  maxHp: 120
-  moveSpeed: 4
-  jumpForce: 500
-  canMove: 1
-  clips:
-  - {fileID: 8300000, guid: a6346f3ac0bec2c46a08cacf8a35540d, type: 3}
-  - {fileID: 8300000, guid: c583e58eae25f6f429e593928e9bd666, type: 3}
-  - {fileID: 8300000, guid: f55d723631e02a94a91ce2933ad39eaf, type: 3}
-  attack2Prefab: {fileID: 8979472193744931253, guid: df63f6a29e697ca42829664fd1ca56de, type: 3}
-  attack2Point: {fileID: 3201957885315788317}
 --- !u!82 &8980062469547181433
 AudioSource:
   m_ObjectHideFlags: 0
@@ -267,6 +245,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2327111904350324128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614972602243299144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1e0a2eb0ae1e248ae33f6c6bc7affd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaStatusData: {fileID: 11400000, guid: 2d4cded8c3f50fe49a9a2bff1775fec0, type: 2}
+  barrierPrefab: {fileID: 608118861463285154, guid: a5bd1ca4d8513dd4e851312a9e1e6d0c, type: 3}
+  clips:
+  - {fileID: 8300000, guid: a6346f3ac0bec2c46a08cacf8a35540d, type: 3}
+  - {fileID: 8300000, guid: c583e58eae25f6f429e593928e9bd666, type: 3}
+  - {fileID: 8300000, guid: f55d723631e02a94a91ce2933ad39eaf, type: 3}
+  canMove: 1
+  attack2Prefab: {fileID: 8979472193744931253, guid: df63f6a29e697ca42829664fd1ca56de, type: 3}
+  attack2Point: {fileID: 3201957885315788317}
 --- !u!1 &3201957885315788317
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +292,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 614972602243299149}
   m_RootOrder: 1
@@ -325,6 +325,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 614972602243299149}
   m_RootOrder: 0
@@ -357,8 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02cbba0f1c037e4ebfb5ae5f0983598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 10
-  freezingTime: 0.2
+  charaStatusData: {fileID: 11400000, guid: 2d4cded8c3f50fe49a9a2bff1775fec0, type: 2}
 --- !u!1001 &6563693564175432030
 PrefabInstance:
   m_ObjectHideFlags: 0

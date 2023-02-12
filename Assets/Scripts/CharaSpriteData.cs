@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// キャラクターとSpriteを対応付けるデータ
 /// </summary>
-[CreateAssetMenu(fileName = "CharaSpriteData", menuName = "ScriptableObjects/CreateCharaSpriteData")]
+[CreateAssetMenu(fileName = "CharaSpriteData", menuName = "ScriptableObjects/CharaSpriteData")]
 public sealed class CharaSpriteData : ScriptableObject
 {
     [SerializeField]
