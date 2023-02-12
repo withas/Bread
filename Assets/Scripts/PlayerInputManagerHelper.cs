@@ -29,12 +29,18 @@ public sealed class PlayerInputManagerHelper : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInputManager.onPlayerJoined += OnPlayerJoined;
+        if (playerInputManager != null)
+        {
+            playerInputManager.onPlayerJoined += OnPlayerJoined;
+        }
     }
 
     private void OnDisable()
     {
-        playerInputManager.onPlayerJoined -= OnPlayerJoined;
+        if (playerInputManager != null)
+        {
+            playerInputManager.onPlayerJoined -= OnPlayerJoined;
+        }
     }
 
     private void OnPlayerJoined(PlayerInput playerInput)
