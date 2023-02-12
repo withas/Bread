@@ -3,18 +3,18 @@ using UnityEngine.InputSystem;
 
 public sealed class PlayerInputManagerHelper : MonoBehaviour
 {
-    private static PlayerInputManagerHelper instance;
+    public static PlayerInputManagerHelper Instance { get; private set; }
 
     private PlayerInputManager playerInputManager;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
             return;
