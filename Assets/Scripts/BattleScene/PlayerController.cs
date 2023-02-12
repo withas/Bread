@@ -7,14 +7,26 @@ using UniRx;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private PlayerInput playerInput;
-
-    [SerializeField]
     private CharaStatusData charaStatusData;
 
     // ガード関係
     [SerializeField]
     private GameObject barrierPrefab;
+
+    // サウンド関連
+    // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
+    [SerializeField]
+    private AudioClip[] clips;
+
+    private PlayerInput playerInput;
+
+    public void SetPlayerInput(PlayerInput playerInput)
+    {
+        if (playerInput != null)
+        {
+            this.playerInput = playerInput;
+        }
+    }
 
     // バリアのオブジェクトを入れる
     private GameObject barrier;
@@ -34,11 +46,6 @@ public class PlayerController : MonoBehaviour
     private float freezingTime; // 硬直時間。0以上のときはなにもできない
 
     private float inputX;
-
-    // サウンド関連
-    // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
-    [SerializeField]
-    private AudioClip[] clips;
 
     private AudioSource audioSource;
 
@@ -63,24 +70,30 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.actions["Move"].performed += OnMove;
-        playerInput.actions["Move"].canceled += OnMoveStop;
-        playerInput.actions["Jump"].started += OnJump;
-        playerInput.actions["Attack1"].started += OnAttack1;
-        playerInput.actions["Attack2"].started += OnAttack2;
-        playerInput.actions["Guard"].started += OnGuard;
-        playerInput.actions["Guard"].canceled += OnGuardStop;
+        if (playerInput != null)
+        {
+            playerInput.actions["Move"].performed += OnMove;
+            playerInput.actions["Move"].canceled += OnMoveStop;
+            playerInput.actions["Jump"].started += OnJump;
+            playerInput.actions["Attack1"].started += OnAttack1;
+            playerInput.actions["Attack2"].started += OnAttack2;
+            playerInput.actions["Guard"].started += OnGuard;
+            playerInput.actions["Guard"].canceled += OnGuardStop;
+        }
     }
 
     private void OnDisable()
     {
-        playerInput.actions["Move"].performed -= OnMove;
-        playerInput.actions["Move"].canceled -= OnMoveStop;
-        playerInput.actions["Jump"].started -= OnJump;
-        playerInput.actions["Attack1"].started -= OnAttack1;
-        playerInput.actions["Attack2"].started -= OnAttack2;
-        playerInput.actions["Guard"].started -= OnGuard;
-        playerInput.actions["Guard"].canceled -= OnGuardStop;
+        if (playerInput != null)
+        {
+            playerInput.actions["Move"].performed -= OnMove;
+            playerInput.actions["Move"].canceled -= OnMoveStop;
+            playerInput.actions["Jump"].started -= OnJump;
+            playerInput.actions["Attack1"].started -= OnAttack1;
+            playerInput.actions["Attack2"].started -= OnAttack2;
+            playerInput.actions["Guard"].started -= OnGuard;
+            playerInput.actions["Guard"].canceled -= OnGuardStop;
+        }
     }
 
     protected void Start()
