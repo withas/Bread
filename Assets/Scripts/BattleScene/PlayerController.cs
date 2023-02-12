@@ -123,11 +123,20 @@ public class PlayerController : MonoBehaviour
         {
             this.animator.SetBool("IsFreezing", true);
             this.freezingTime -= Time.deltaTime;
-            if (this.freezingTime <= 0) this.spriteRenderer.color = new Color(255.0f, 255.0f, 255.0f);
+            if (this.freezingTime <= 0)
+            {
+                this.spriteRenderer.color = new Color(255.0f, 255.0f, 255.0f);
+            }
         }
-        else this.animator.SetBool("IsFreezing", false);
+        else
+        {
+            this.animator.SetBool("IsFreezing", false);
+        }
 
-        if (this.isJumping) this.animator.SetFloat("YSpeed", this.rigidBody.velocity.y);
+        if (this.isJumping)
+        {
+            this.animator.SetFloat("YSpeed", this.rigidBody.velocity.y);
+        }
     }
 
     private void FixedUpdate()
@@ -184,7 +193,10 @@ public class PlayerController : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
         // ジャンプ中はジャンプできない
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Jump");
     }
@@ -192,11 +204,13 @@ public class PlayerController : MonoBehaviour
     // 着地するときにFootPointから呼ばれる
     public void OnGround()
     {
-        if (this.isJumping)
+        if (!this.isJumping)
         {
-            this.animator.SetTrigger("OnGround");
-            this.isJumping = false;
+            return;
         }
+
+        this.animator.SetTrigger("OnGround");
+        this.isJumping = false;
     }
 
     // Jumpアニメーション中に呼び出す
@@ -210,7 +224,10 @@ public class PlayerController : MonoBehaviour
     // Attack1ボタンが押されたときに呼ばれる
     private void OnAttack1(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Attack1");
     }
@@ -218,7 +235,10 @@ public class PlayerController : MonoBehaviour
     // Attack2ボタンが押されたときに呼ばれる
     private void OnAttack2(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("Attack2");
         audioSource.PlayOneShot(clips[1]);
@@ -227,7 +247,10 @@ public class PlayerController : MonoBehaviour
     // ガードキーが押されているときに呼ぶ
     private void OnGuard(InputAction.CallbackContext context)
     {
-        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0) return;
+        if (this.isJumping || this.isGuarding || !this.canMove || this.freezingTime > 0)
+        {
+            return;
+        }
 
         // バリアを子オブジェクトとして生成する
         this.barrier = Instantiate(barrierPrefab);
@@ -241,7 +264,10 @@ public class PlayerController : MonoBehaviour
     private void OnGuardStop(InputAction.CallbackContext context)
     {
         // バリアを消す
-        if (this.barrier != null) Destroy(this.barrier);
+        if (this.barrier != null)
+        {
+            Destroy(this.barrier);
+        }
 
         this.isGuarding = false;
     }
@@ -249,7 +275,11 @@ public class PlayerController : MonoBehaviour
     // 攻撃を受けたときに呼ばれる。ダメージ量と硬直時間を引数に受け取る
     public virtual void OnDamage(int damage, float freezingTime)
     {
-        if (this.hp <= 0) return; // 死んでいたらダメージを受けない
+        // 死んでいたらダメージを受けない
+        if (this.hp <= 0)
+        {
+            return;
+        }
 
         this.animator.SetTrigger("IsHurt");
 
