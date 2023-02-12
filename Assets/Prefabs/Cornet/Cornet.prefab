@@ -146,8 +146,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.059339106, y: 0.6568587}
-  m_Size: {x: 0.30224496, y: 1.2009435}
+  m_Offset: {x: 0.14, y: 1.94}
+  m_Size: {x: 0.86, y: 3.6}
   m_Direction: 0
 --- !u!82 &8980062469547181433
 AudioSource:
@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3201957885315788317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -323,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7987669835676974014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -343,8 +343,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.39271557, y: -0.24673302}
-  m_Size: {x: 0.78205913, y: 0.18578519}
+  m_Offset: {x: -0.39271557, y: -0.2299999}
+  m_Size: {x: 0.78205913, y: 0.27}
   m_Direction: 1
 --- !u!114 &6230426828974630994
 MonoBehaviour:
