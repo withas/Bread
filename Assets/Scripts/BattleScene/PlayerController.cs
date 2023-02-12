@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     // ガード関係
     [SerializeField]
-    private GameObject barrierPrefab;
+    private GameObject barrier;
 
     // サウンド関連
     // 0:攻撃くらったとき, 1:スキル, 2:ガード時の被ダメ
@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // バリアのオブジェクトを入れる
-    private GameObject barrier;
     private bool isGuarding;
 
     private Slider slider;
@@ -252,10 +250,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // バリアを子オブジェクトとして生成する
-        this.barrier = Instantiate(barrierPrefab);
-        this.barrier.transform.parent = this.transform;
-        this.barrier.transform.localPosition = new Vector3(0, 0.75f, 0);
+        // バリアを表示する
+        this.barrier.SetActive(true);
 
         this.isGuarding = true;
     }
@@ -263,11 +259,8 @@ public class PlayerController : MonoBehaviour
     // ガードキーが離されたときに呼ぶ
     private void OnGuardStop(InputAction.CallbackContext context)
     {
-        // バリアを消す
-        if (this.barrier != null)
-        {
-            Destroy(this.barrier);
-        }
+        // バリアを非表示にする
+        this.barrier.SetActive(false);
 
         this.isGuarding = false;
     }

@@ -71,7 +71,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 450
+  spritePixelsToUnits: 150
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -228,8 +228,8 @@ TextureImporter:
       name: cornet_jump_4
       rect:
         serializedVersion: 2
-        x: 3600
-        y: 900
+        x: 0
+        y: 0
         width: 900
         height: 900
       alignment: 7
@@ -249,7 +249,7 @@ TextureImporter:
       name: cornet_jump_5
       rect:
         serializedVersion: 2
-        x: 0
+        x: 900
         y: 0
         width: 900
         height: 900
@@ -270,7 +270,7 @@ TextureImporter:
       name: cornet_jump_6
       rect:
         serializedVersion: 2
-        x: 900
+        x: 1800
         y: 0
         width: 900
         height: 900
@@ -291,7 +291,7 @@ TextureImporter:
       name: cornet_jump_7
       rect:
         serializedVersion: 2
-        x: 1800
+        x: 2700
         y: 0
         width: 900
         height: 900
