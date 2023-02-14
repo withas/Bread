@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
-using SelectCharacter;
 
-public sealed class BattleFinish : MonoBehaviour
+public sealed class BattleFinisher : MonoBehaviour
 {
     [SerializeField]
     private GameObject text;
@@ -25,7 +24,7 @@ public sealed class BattleFinish : MonoBehaviour
         this.charaSelectData = charaSelectData;
     }
 
-    public async UniTaskVoid OnFinish(int playerNumber)
+    public async UniTaskVoid FinishAsync(int playerNumber)
     {
         Cursor.visible = true; // マウスカーソルを表示する
 
