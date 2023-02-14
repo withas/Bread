@@ -1,38 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FranceController : PlayerController {
-    // Attack2
-    [SerializeField] private GameObject attack2Prefab;
-    [SerializeField] private GameObject attack2Point; // Attack2生成位置
-    
-    private GameObject attack2Object; // Attack2のオブジェクト
+public sealed class FranceController : PlayerController
+{
+    /// <summary>
+    /// Attack2のPrefab
+    /// </summary>
+    [SerializeField]
+    private GameObject attack2Prefab;
 
-    new void Start() {
-        base.Start();
-    }
+    /// <summary>
+    /// Attack2生成位置
+    /// </summary>
+    [SerializeField]
+    private GameObject attack2Point;
 
-    new void Update() {
-        base.Update();
-    }
-
-    // Attack2関係
+    /// <summary>
+    /// Prefabから生成したAttack2のオブジェクト
+    /// </summary>
+    private GameObject attack2Object;
 
     // キャラクターのAttack2のアニメーションの中で呼ばれる
-    public void StartAttack2() {
+    public void StartAttack2()
+    {
         this.attack2Object = Instantiate(this.attack2Prefab, this.attack2Point.transform.position, this.transform.rotation);
 
         // 子オブジェクトに設定する
         this.attack2Object.transform.parent = this.transform;
     }
 
-    public void EndAttack2() {
+    public void EndAttack2()
+    {
         this.animator.SetTrigger("EndAttack2");
     }
 
-    override public void OnDamage(int damage, float freezingTime) {
-        if (this.attack2Object != null) Destroy(this.attack2Object);
+    public override void OnDamage(int damage, float freezingTime)
+    {
+        if (this.attack2Object != null)
+        {
+            Destroy(this.attack2Object);
+        }
 
         base.OnDamage(damage, freezingTime);
     }
