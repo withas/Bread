@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CornetStatusData
   m_EditorClassIdentifier: 
   maxHP: 120
-  moveSpeed: 4
-  jumpForce: 500
+  moveSpeed: 4.2
+  jumpForce: 860
   guardingRatio: 0.67
   attack1Power: 10
   attack1FreezingTime: 0.2

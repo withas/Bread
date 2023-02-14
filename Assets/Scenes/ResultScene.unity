@@ -493,8 +493,8 @@ MonoBehaviour:
   player2BackText: {fileID: 1443429874}
   charaSelectButton: {fileID: 716610326}
   retryButton: {fileID: 688790448}
-  winnerSpriteData: {fileID: 11400000, guid: 70ba45f5edc30a348b6d174d74150034, type: 2}
-  loserSpriteData: {fileID: 11400000, guid: 97ca65817a4743d47b50a7818498a2ac, type: 2}
+  winnerSpriteDictionary: {fileID: 11400000, guid: 70ba45f5edc30a348b6d174d74150034, type: 2}
+  loserSpriteDictionary: {fileID: 11400000, guid: 97ca65817a4743d47b50a7818498a2ac, type: 2}
   charaSelectSceneName: SelectCharaScene
   battleSceneName: BattleScene
 --- !u!4 &663794683

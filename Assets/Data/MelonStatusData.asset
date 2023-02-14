@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 180
   moveSpeed: 3
-  jumpForce: 500
+  jumpForce: 700
   guardingRatio: 0.67
   attack1Power: 12
   attack1FreezingTime: 0.3

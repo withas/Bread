@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CurryStatusData
   m_EditorClassIdentifier: 
   maxHP: 150
-  moveSpeed: 3
-  jumpForce: 300
+  moveSpeed: 3.6
+  jumpForce: 700
   guardingRatio: 0.67
   attack1Power: 15
   attack1FreezingTime: 0.3

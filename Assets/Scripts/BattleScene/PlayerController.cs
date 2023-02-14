@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UniRx;
 
-public class PlayerController : MonoBehaviour
+public abstract class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private CharaStatusData charaStatusData;
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        const float power = 20;
+        const float power = 20.0f;
 
         float x = inputX;
 
@@ -156,6 +156,8 @@ public class PlayerController : MonoBehaviour
         }
 
         this.rigidBody.AddForce(Vector3.right * ((charaStatusData.MoveSpeed * x - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
+
+        this.animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
     }
 
     // 向きを変える
@@ -171,19 +173,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // どんなときでも1フレームに1回呼ばれる。xにはx軸方向の入力が渡される
     private void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
-
-        this.animator.SetFloat("Speed", Mathf.Abs(value.x));
 
         this.inputX = value.x;
     }
 
     private void OnMoveStop(InputAction.CallbackContext context)
     {
-        animator.SetFloat("Speed", Mathf.Abs(0));
         inputX = 0;
     }
 
@@ -241,6 +239,10 @@ public class PlayerController : MonoBehaviour
         this.animator.SetTrigger("Attack2");
         audioSource.PlayOneShot(clips[1]);
     }
+
+    public abstract void StartAttack2();
+
+    public abstract void EndAttack2();
 
     // ガードキーが押されているときに呼ぶ
     private void OnGuard(InputAction.CallbackContext context)
@@ -315,6 +317,9 @@ public class PlayerController : MonoBehaviour
 
         // 死亡アニメーションに移行
         this.animator.SetTrigger("IsDead");
+
+        // X軸方向に動かないようにする
+        rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionX;
 
         // 操作不能にする
         this.enabled = false;
