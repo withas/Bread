@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CornetAttack2Controller : MonoBehaviour
+public sealed class CornetAttack2Controller : MonoBehaviour
 {
     // 技の性能
     [SerializeField]
