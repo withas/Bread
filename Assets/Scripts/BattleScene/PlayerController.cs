@@ -139,7 +139,7 @@ public abstract class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        const float power = 20;
+        const float power = 20.0f;
 
         float x = inputX;
 
@@ -156,6 +156,8 @@ public abstract class PlayerController : MonoBehaviour
         }
 
         this.rigidBody.AddForce(Vector3.right * ((charaStatusData.MoveSpeed * x - this.rigidBody.velocity.x) * power) * this.rigidBody.mass);
+
+        this.animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
     }
 
     // 向きを変える
@@ -175,14 +177,11 @@ public abstract class PlayerController : MonoBehaviour
     {
         var value = context.ReadValue<Vector2>();
 
-        this.animator.SetFloat("Speed", Mathf.Abs(value.x));
-
         this.inputX = value.x;
     }
 
     private void OnMoveStop(InputAction.CallbackContext context)
     {
-        animator.SetFloat("Speed", Mathf.Abs(0));
         inputX = 0;
     }
 
