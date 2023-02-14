@@ -1834,7 +1834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaPrefabsData: {fileID: 11400000, guid: f1e29a385f27792429b163db35bcf22e, type: 2}
   countDown: {fileID: 850331137}
-  battleFinish: {fileID: 850331139}
+  battleFinisher: {fileID: 850331139}
   player1SpawnPoint: {fileID: 1872677826}
   player2SpawnPoint: {fileID: 1548398373}
 --- !u!114 &850331137

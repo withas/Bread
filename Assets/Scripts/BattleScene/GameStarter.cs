@@ -11,7 +11,7 @@ public sealed class GameStarter : MonoBehaviour
     private CountDown countDown;
 
     [SerializeField]
-    private BattleFinish battleFinish;
+    private BattleFinisher battleFinisher;
 
     [SerializeField]
     private Transform player1SpawnPoint;
@@ -26,7 +26,7 @@ public sealed class GameStarter : MonoBehaviour
             Cursor.visible = false; // マウスカーソルを非表示にする
         }
 
-        battleFinish.SetCharacters(charaSelectData);
+        battleFinisher.SetCharacters(charaSelectData);
 
         // Player1を生成
         if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player1Chara, out var player1Prefab))
@@ -45,8 +45,8 @@ public sealed class GameStarter : MonoBehaviour
         player1Controller.enabled = false;
 
         player1Controller.OnDownedObservable
-                         .Subscribe(_ => battleFinish.OnFinish(1).Forget())
-                         .AddTo(battleFinish);
+                         .Subscribe(_ => battleFinisher.FinishAsync(1).Forget())
+                         .AddTo(battleFinisher);
 
         // Player2を生成
         if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
@@ -65,8 +65,8 @@ public sealed class GameStarter : MonoBehaviour
         player2Controller.enabled = false;
 
         player2Controller.OnDownedObservable
-                         .Subscribe(_ => battleFinish.OnFinish(0).Forget())
-                         .AddTo(battleFinish);
+                         .Subscribe(_ => battleFinisher.FinishAsync(0).Forget())
+                         .AddTo(battleFinisher);
 
         await countDown.CountDownAsync();
 
