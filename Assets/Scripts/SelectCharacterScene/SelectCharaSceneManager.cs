@@ -119,6 +119,6 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
         var charaSelectData = new CharaSelectData(player1Character, player2Character);
 
-        gameStarter.StartGame(charaSelectData).Forget();
+        gameStarter.StartAsync(charaSelectData).Forget();
     }
 }

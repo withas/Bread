@@ -21,7 +21,7 @@ namespace SelectCharacter
         [SerializeField]
         private Transform player2SpawnPoint;
 
-        public async UniTaskVoid StartGame(CharaSelectData charaSelectData)
+        public async UniTaskVoid StartAsync(CharaSelectData charaSelectData)
         {
             if (Screen.fullScreen)
             {

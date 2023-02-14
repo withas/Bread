@@ -102,7 +102,7 @@ namespace SelectCharacter
                 return;
             }
 
-            gameStarter.StartGame(charaSelectData).Forget();
+            gameStarter.StartAsync(charaSelectData).Forget();
         }
     }
 }
