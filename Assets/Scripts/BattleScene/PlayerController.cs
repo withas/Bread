@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UniRx;
 
-public class PlayerController : MonoBehaviour
+public abstract class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private CharaStatusData charaStatusData;
@@ -171,7 +171,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // どんなときでも1フレームに1回呼ばれる。xにはx軸方向の入力が渡される
     private void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
@@ -241,6 +240,10 @@ public class PlayerController : MonoBehaviour
         this.animator.SetTrigger("Attack2");
         audioSource.PlayOneShot(clips[1]);
     }
+
+    public abstract void StartAttack2();
+
+    public abstract void EndAttack2();
 
     // ガードキーが押されているときに呼ぶ
     private void OnGuard(InputAction.CallbackContext context)

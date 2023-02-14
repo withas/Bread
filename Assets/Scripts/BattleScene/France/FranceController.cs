@@ -20,7 +20,7 @@ public sealed class FranceController : PlayerController
     private GameObject attack2Object;
 
     // キャラクターのAttack2のアニメーションの中で呼ばれる
-    public void StartAttack2()
+    public override void StartAttack2()
     {
         this.attack2Object = Instantiate(this.attack2Prefab, this.attack2Point.transform.position, this.transform.rotation);
 
@@ -28,7 +28,7 @@ public sealed class FranceController : PlayerController
         this.attack2Object.transform.parent = this.transform;
     }
 
-    public void EndAttack2()
+    public override void EndAttack2()
     {
         this.animator.SetTrigger("EndAttack2");
     }
