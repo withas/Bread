@@ -318,6 +318,9 @@ public abstract class PlayerController : MonoBehaviour
         // 死亡アニメーションに移行
         this.animator.SetTrigger("IsDead");
 
+        // X軸方向に動かないようにする
+        rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionX;
+
         // 操作不能にする
         this.enabled = false;
 
