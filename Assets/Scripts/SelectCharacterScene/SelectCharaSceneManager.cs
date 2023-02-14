@@ -112,7 +112,7 @@ public sealed class SelectCharaSceneManager : MonoBehaviour
 
         await SceneManager.LoadSceneAsync(battleSceneName);
 
-        if (!SceneManagerExtension.TryGetComponentInScene<SelectCharacter.GameStarter>(battleSceneName, out var gameStarter))
+        if (!SceneManagerExtension.TryGetComponentInScene<GameStarter>(battleSceneName, out var gameStarter))
         {
             return;
         }

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
-using SelectCharacter;
 
 public sealed class BattleFinish : MonoBehaviour
 {
