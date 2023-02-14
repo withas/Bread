@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f2fe7e0c922df4882aa7f494902507, type: 3}
-  m_Name: CharaPrefabsData
+  m_Name: CharaPrefabsDictionary
   m_EditorClassIdentifier: 
   curryPrefab: {fileID: 7256132937004298342, guid: 009df5688d8206f489bce6a4c0c38470, type: 3}
   curryAttack2Prefab: {fileID: 6909817682759642664, guid: f25d3fc32f7774440aed1873f2544c84, type: 3}

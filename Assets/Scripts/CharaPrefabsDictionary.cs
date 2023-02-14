@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharaPrefabsData", menuName = "ScriptableObjects/CharaPrefabsData")]
-public sealed class CharaPrefabsData : ScriptableObject
+[CreateAssetMenu(fileName = "CharaPrefabsDictionary", menuName = "ScriptableObjects/CharaPrefabsDictionary")]
+public sealed class CharaPrefabsDictionary : ScriptableObject
 {
     [SerializeField]
     private CurryController curryPrefab;

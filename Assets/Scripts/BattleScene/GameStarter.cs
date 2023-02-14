@@ -5,7 +5,7 @@ using UniRx;
 public sealed class GameStarter : MonoBehaviour
 {
     [SerializeField]
-    private CharaPrefabsData charaPrefabsData;
+    private CharaPrefabsDictionary charaPrefabsDictionary;
 
     [SerializeField]
     private CountDown countDown;
@@ -29,7 +29,7 @@ public sealed class GameStarter : MonoBehaviour
         battleFinisher.SetCharacters(charaSelectData);
 
         // Player1を生成
-        if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player1Chara, out var player1Prefab))
+        if (!charaPrefabsDictionary.TryGetPrefab(charaSelectData.Player1Chara, out var player1Prefab))
         {
             return;
         }
@@ -49,7 +49,7 @@ public sealed class GameStarter : MonoBehaviour
                          .AddTo(battleFinisher);
 
         // Player2を生成
-        if (!charaPrefabsData.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
+        if (!charaPrefabsDictionary.TryGetPrefab(charaSelectData.Player2Chara, out var player2Prefab))
         {
             return;
         }
