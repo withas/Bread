@@ -88,6 +88,9 @@ public sealed class ResultSceneManager : MonoBehaviour
 
     private void OnCharaSelectButtonClicked()
     {
+        // PlayerInputManagerのGameObjectを破棄する
+        Destroy(PlayerInputManagerHelper.Instance.gameObject);
+
         SceneManager.LoadScene(charaSelectSceneName);
     }
 
