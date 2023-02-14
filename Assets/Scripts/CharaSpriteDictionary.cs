@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// キャラクターとSpriteを対応付けるデータ
 /// </summary>
-[CreateAssetMenu(fileName = "CharaSpriteData", menuName = "ScriptableObjects/CharaSpriteData")]
-public sealed class CharaSpriteData : ScriptableObject
+[CreateAssetMenu(fileName = "CharaSpriteDictionary", menuName = "ScriptableObjects/CharaSpriteDictionary")]
+public sealed class CharaSpriteDictionary : ScriptableObject
 {
     [SerializeField]
     private Sprite currySprite;

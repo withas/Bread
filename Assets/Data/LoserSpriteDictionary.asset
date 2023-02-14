@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0714dcccd865da44498b4a17df8cb2d6, type: 3}
-  m_Name: LoserSpriteData
+  m_Name: LoserSpriteDictionary
   m_EditorClassIdentifier: 
   currySprite: {fileID: 21300000, guid: 4af5eb18fbff35449968daebc96ccaa6, type: 3}
   franceSprite: {fileID: 21300000, guid: c662ccec000061345b5fd535c801ae47, type: 3}

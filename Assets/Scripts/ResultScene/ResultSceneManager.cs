@@ -31,10 +31,10 @@ public sealed class ResultSceneManager : MonoBehaviour
     private Button retryButton;
 
     [SerializeField]
-    private CharaSpriteData winnerSpriteData;
+    private CharaSpriteDictionary winnerSpriteDictionary;
 
     [SerializeField]
-    private CharaSpriteData loserSpriteData;
+    private CharaSpriteDictionary loserSpriteDictionary;
 
     [SerializeField]
     private string charaSelectSceneName;
@@ -58,13 +58,13 @@ public sealed class ResultSceneManager : MonoBehaviour
 
         if (winnerNumber == 0)
         {
-            if (winnerSpriteData.TryGetSprite(charaSelectData.Player1Chara, out var winnerSprite))
+            if (winnerSpriteDictionary.TryGetSprite(charaSelectData.Player1Chara, out var winnerSprite))
             {
                 player1Image.sprite = winnerSprite;
             }
             player1FrontText.text = player1BackText.text = "WIN";
 
-            if (loserSpriteData.TryGetSprite(charaSelectData.Player2Chara, out var loserSprite))
+            if (loserSpriteDictionary.TryGetSprite(charaSelectData.Player2Chara, out var loserSprite))
             {
                 player2Image.sprite = loserSprite;
             }
@@ -72,13 +72,13 @@ public sealed class ResultSceneManager : MonoBehaviour
         }
         else if (winnerNumber == 1)
         {
-            if (winnerSpriteData.TryGetSprite(charaSelectData.Player2Chara, out var winnerSprite))
+            if (winnerSpriteDictionary.TryGetSprite(charaSelectData.Player2Chara, out var winnerSprite))
             {
                 player2Image.sprite = winnerSprite;
             }
             player2FrontText.text = player2BackText.text = "WIN";
 
-            if (loserSpriteData.TryGetSprite(charaSelectData.Player1Chara, out var loserSprite))
+            if (loserSpriteDictionary.TryGetSprite(charaSelectData.Player1Chara, out var loserSprite))
             {
                 player1Image.sprite = loserSprite;
             }
